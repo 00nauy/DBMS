@@ -1,0 +1,33 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>登录成功页面</title>  
+    <style>  
+        .button {  
+            display: inline-block;  
+            padding: 10px 20px;  
+            background-color: #4CAF50; /* Green */  
+            border: none;  
+            color: white;  
+            text-align: center;  
+            text-decoration: none;  
+            font-size: 16px;  
+            margin: 4px 2px;  
+            cursor: pointer;  
+        }  
+  
+        .button:hover {  
+            background-color: #45a049; 
+        }  
+    </style>  
+</head>  
+<body>  
+<h1>登录成功！</h1>  
+<p>欢迎回来，{{username}}！</p>
+<a href="/personal_info" class="button">查询个人信息</a> 
+<a href="/borrow_info" class="button">查询借阅信息</a> 
+<a href="/borrow" class="button">借书</a> 
+</body>  
+</html>
