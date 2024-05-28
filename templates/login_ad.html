@@ -11,9 +11,9 @@
  
 <div class="login-box">
     <h2>入口</h2>
-    <form action="/login" method="post">
+    <form action="/adlogin" method="post">
         <div class="login-field">
-            <span style="color: aqua; size: 12px">用户号</span>
+            <span style="color: aqua; size: 12px">管理员号</span>
             <input type="text" name="account" required=""/>
         </div>
         <div class="login-field">
@@ -21,8 +21,8 @@
             <input type="password" name="password" required=""/>
         </div>
         <input type="submit" value="点击进入" id="myloginlabel">
-        <p style="color: #101113">没有账号？<a href="./register" style="color: rgba(22,180,166,0.58)" onclick="topggleForm();">注册</a>
-	<a href="./adlogin" style="color: rgba(22,180,166,0.58)" onclick="topggleForm();">以管理员身份登录</a>
+        <p style="color: #101113">没有账号？<a href="./adregister" style="color: rgba(22,180,166,0.58)" onclick="topggleForm();">注册</a>
+	<a href="./login" style="color: rgba(22,180,166,0.58)" onclick="topggleForm();">以用户身份登录</a>
 </p>
     </form>
 </div>
