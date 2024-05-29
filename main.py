@@ -77,7 +77,18 @@ def index():
     if not isinstance(current_user, User): 
         abort(403)
     if request.method == "GET":
-        return render_template('index.html', username = current_user.name)
+        # 连接数据库
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+
+        # 查询最新的N条公告，这里我们假设N=5
+        N = 5
+        cursor.execute("SELECT title, content, pubtime FROM announcements ORDER BY pubtime DESC LIMIT %s", (N,))
+        announcements = cursor.fetchall()
+        db.close()
+
+        # 传递用户名和公告到模板
+        return render_template('index.html', username=current_user.name, announcements=announcements)
 
 
 #登出页面，当用户或管理员在主页按下“退出登录”按钮时，将退出登录并跳转到登录页面。
@@ -123,24 +134,6 @@ def br_info():
             info3 = '书号：{} 用户号：{} 开始时间：{} 归还期限：{}'.format(result[2][0],current_user.account,result[2][1],result[2][2])
         db.close()
         return render_template('borrow_info.html', info1=info1,info2=info2,info3=info3)
-
-
-# #借书页1，当用户在主页按下“借书”按钮时，跳转到借书页1，这个页面将向用户展示书籍列表。
-# #对应模板文件为'borrow.html'
-# @app.route('/borrow', methods=['GET', 'POST'])
-# @login_required
-# def borrow():
-#     if not isinstance(current_user, User): 
-#         abort(403)
-#     if request.method == "GET":
-#         db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
-#         cursor = db.cursor()
-#         sql_query = "SELECT * FROM books"
-#         cursor.execute(sql_query)  
-#         result = cursor.fetchall()
-#         db.commit() 
-#         db.close()
-#         return render_template('borrow.html',result=result)
 
 
 #借书页2，当用户在借书页1按下“借阅”按钮时，跳转到借书页2，用户在这个页面设置借阅时长。
@@ -412,6 +405,7 @@ def returnbook2():
     db.close()
     return '已确认还书！'
 
+
 # 查询页面，用户可以在此页面输入书名、作者、类别进行搜索，搜索结果将显示在同一页面，且用户可以直接借阅。
 @app.route('/search', methods=['GET'])
 @login_required
@@ -442,6 +436,7 @@ def search():
         
     # 如果不是GET请求，返回空搜索页面
     return render_template('search.html')
+
 
 # 公告页面，管理员可以在此页面发布公告，用户可以在主页查看公告。
 @app.route('/announcement', methods=['GET', 'POST'])
@@ -474,6 +469,8 @@ def announcement():
         return redirect(url_for('announcement'))
 
     return render_template('add_ann.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
