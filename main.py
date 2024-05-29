@@ -39,7 +39,7 @@ def login():
             return redirect(url_for('login'))  
         login_user(user)  
         return redirect(url_for('index'))
-    return render_template('login.html')  
+    return render_template('login.html')
 
 
 #注册页面
@@ -125,22 +125,22 @@ def br_info():
         return render_template('borrow_info.html', info1=info1,info2=info2,info3=info3)
 
 
-#借书页1，当用户在主页按下“借书”按钮时，跳转到借书页1，这个页面将向用户展示书籍列表。
-#对应模板文件为'borrow.html'
-@app.route('/borrow', methods=['GET', 'POST'])
-@login_required
-def borrow():
-    if not isinstance(current_user, User): 
-        abort(403)
-    if request.method == "GET":
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
-        cursor = db.cursor()
-        sql_query = "SELECT * FROM books"
-        cursor.execute(sql_query)  
-        result = cursor.fetchall()
-        db.commit() 
-        db.close()
-        return render_template('borrow.html',result=result)
+# #借书页1，当用户在主页按下“借书”按钮时，跳转到借书页1，这个页面将向用户展示书籍列表。
+# #对应模板文件为'borrow.html'
+# @app.route('/borrow', methods=['GET', 'POST'])
+# @login_required
+# def borrow():
+#     if not isinstance(current_user, User): 
+#         abort(403)
+#     if request.method == "GET":
+#         db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+#         cursor = db.cursor()
+#         sql_query = "SELECT * FROM books"
+#         cursor.execute(sql_query)  
+#         result = cursor.fetchall()
+#         db.commit() 
+#         db.close()
+#         return render_template('borrow.html',result=result)
 
 
 #借书页2，当用户在借书页1按下“借阅”按钮时，跳转到借书页2，用户在这个页面设置借阅时长。
@@ -411,6 +411,38 @@ def returnbook2():
     db.commit()
     db.close()
     return '已确认还书！'
+
+# 查询页面，用户可以在此页面输入书名、作者、类别进行搜索，搜索结果将显示在同一页面，且用户可以直接借阅。
+@app.route('/search', methods=['GET'])
+@login_required
+def search():
+    if request.method == "GET":
+        # 从请求中获取参数
+        book_name = request.args.get('book', '')
+        author = request.args.get('author', '')
+        category = request.args.get('class', '')
+
+        # 检查是否有输入搜索条件
+        if book_name or author or category:
+            db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+            cursor = db.cursor()
+            sql_query = """
+                        SELECT * FROM books 
+                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s
+                        """
+            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%')
+            cursor.execute(sql_query, values)
+            result = cursor.fetchall()
+            db.close()
+            # 传递结果到模板，包括一个标识符表示有搜索执行
+            return render_template('search.html', result=result, searched=True)
+        else:
+            # 如果没有任何搜索条件，设置result为空并传递一个标识符表示未执行搜索
+            return render_template('search.html', result=None, searched=False)
+        
+    # 如果不是GET请求，返回空搜索页面
+    return render_template('search.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
