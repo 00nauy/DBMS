@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -28,4 +28,48 @@
   
   
 </body>  
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>借阅信息页面</title>
+    <link rel="stylesheet" href="../static/css/borrow_info.css">
+</head>
+<body>
+
+<div class="background-image"></div>
+
+<div class="overlay"></div>
+
+<div class="header">
+    <h1>图书馆管理系统</h1>
+</div>
+
+<a href="/index" class="return-button">
+    <img src="../static/images/homepage_icon.jpg" alt="返回主页">
+</a>
+
+<div class="user-info">
+    <h2>我的借阅</h2>
+    <div>
+        <label>借阅记录1:</label>
+        <span id="info">{{info1}}</span>
+    </div>
+    <div>
+        <label>借阅记录2:</label>
+        <span id="info">{{info2}}</span>
+    </div>
+    <div>
+        <label>借阅记录3:</label>
+        <span id="info">{{info3}}</span>
+    </div>
+</div>
+
+</body>
 </html>
+
+
