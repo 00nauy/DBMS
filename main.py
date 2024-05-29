@@ -443,6 +443,37 @@ def search():
     # 如果不是GET请求，返回空搜索页面
     return render_template('search.html')
 
+# 公告页面，管理员可以在此页面发布公告，用户可以在主页查看公告。
+@app.route('/announcement', methods=['GET', 'POST'])
+@login_required
+def announcement():
+    #若当前用户不是管理员，则禁止访问
+    if not isinstance(current_user, Manager): 
+        abort(403)
+    if request.method == "POST":
+        # 从请求中获取公告内容
+        title = request.form.get('title', '').strip()
+        content = request.form.get('content', '').strip()
+        # 检查标题和内容是否为空
+        if not title or not content:
+            flash('标题和内容都不能为空！')
+            return render_template('announcement.html')
+        # 获取当前时间
+        current_date = datetime.date.today()
+        # 更新数据库
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        cursor.execute("SELECT MAX(announcement_id) FROM announcements")
+        new_id = cursor.fetchone()[0]
+        new_id = new_id + 1 if new_id else 1
+        sql_query = "INSERT INTO announcements (announcement_id, title, content, pubtime) VALUES (%s, %s, %s, %s)"
+        values = (new_id, title, content, current_date)
+        cursor.execute(sql_query, values)
+        db.commit()
+        db.close()
+        return redirect(url_for('announcement'))
+
+    return render_template('add_ann.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
