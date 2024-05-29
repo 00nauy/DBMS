@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -24,12 +24,44 @@
     </style>  
 </head>  
 <body>  
-    <h1>登录成功！</h1>  
-    <p>欢迎回来，{{username}}！</p>
-    <a href="/personal_info" class="button">查询个人信息</a> 
-    <a href="/borrow_info" class="button">查询借阅信息</a> 
-    <a href="/search" class="button">借书</a> 
-    <a href="/logout" class="button">退出登录</a> 
+<h1>登录成功！</h1>  
+<p>欢迎回来，{{username}}！</p>
+<a href="/personal_info" class="button">查询个人信息</a> 
+<a href="/borrow_info" class="button">查询借阅信息</a> 
+<a href="/borrow" class="button">借书</a> 
+<a href="/logout" class="button">退出登录</a> 
+</body>  
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录成功页面</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+</head>
+<body>
+    <div class="background-image bg1"></div>
+    <div class="background-image bg2"></div>
+
+    <div class="header-container">
+        <h1 class="header">Library Management System Homepage</h1>
+    </div>
+
+    <p class="welcome-text">welcome back, {{username}}!</p>
+
+    <div class="button-container">
+        <a href="/personal_info" class="button" id="btn1">查询个人信息</a>
+        <a href="/borrow_info" class="button" id="btn2">查询借阅信息</a>
+        <a href="/search" class="button" id="btn3">借书</a>
+        <a href="/logout" class="button" id="btn4">退出登录</a>
+    </div>
+
+    <script src="../static/js/index_bg.js"></script>
+    <script src="../static/js/button_effect.js"></script>
+
     <h2>最新公告</h2>
     <ul>
         {% for title, content, pubtime in announcements %}
@@ -40,5 +72,7 @@
             <li>还没编好公告呢。</li>
         {% endfor %}
     </ul>
-</body>  
+</body>
 </html>
+
+
