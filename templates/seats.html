@@ -1,0 +1,81 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>座位预约</title>  
+    <style>  
+        /* ... 你的CSS样式 ... */  
+    </style>  
+</head>  
+<body>  
+    <h1>座位预约</h1>  
+    <form id="timeForm" action="/reserve" method="post">  
+        <p>请选择开始时间：</p>
+        <label for="hour">时:</label> 
+        <select id="hour" name="hour" required>  
+            <script>  
+                var select = document.getElementById('hour');  
+                for (var i = 8; i <= 21; i++) {  
+                    var option = document.createElement('option');  
+                    option.value = i.toString(); 
+                    option.text = i.toString();
+                    select.appendChild(option);
+                }  
+            </script>  
+        </select> 
+
+        <label for="minute">分:</label> 
+        <select id="minute" name="minute" required>  
+            <script>  
+                var select = document.getElementById('minute');  
+                for (var i = 0; i <= 59; i++) {  
+                    var option = document.createElement('option');  
+                    option.value = i.toString(); 
+                    option.text = i.toString();
+                    select.appendChild(option);
+                }  
+            </script>  
+        </select>
+
+        <p>请选择结束时间：</p>
+        <label for="hour2">时:</label> 
+        <select id="hour2" name="hour2" required>  
+            <script>  
+                var select = document.getElementById('hour2');  
+                for (var i = 8; i <= 21; i++) {  
+                    var option = document.createElement('option');  
+                    option.value = i.toString(); 
+                    option.text = i.toString();
+                    select.appendChild(option);
+                }  
+            </script>  
+        </select> 
+
+        <label for="minute2">分:</label> 
+        <select id="minute2" name="minute2" required>  
+            <script>  
+                var select = document.getElementById('minute2');  
+                for (var i = 0; i <= 59; i++) {  
+                    var option = document.createElement('option');  
+                    option.value = i.toString(); 
+                    option.text = i.toString();
+                    select.appendChild(option);
+                }  
+            </script>  
+        </select>
+
+        <input type="submit" value="查找">  
+    </form>
+    <!-- <ul id="seat-list">  
+        {% for item in seats %}
+		<li>座位号：{{item}}
+        <form action="/reserve2" method="get" class="seat-action-form">  
+            <input type="hidden" name="seat_id" value="{{item}}">  
+            <button type="submit" class="button">查看预约情况</button>  
+        </form>
+	   	</li>
+	    {% endfor %}
+    </ul>   -->
+</body>  
+</html>

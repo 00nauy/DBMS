@@ -22,7 +22,7 @@ class User(UserMixin):
   
     @staticmethod  
     def get_by_account(account):  
-        db = pymysql.connect(host="localhost", user="root", password="egwegwegw612", database="library_system")  
+        db = pymysql.connect(host="localhost", user="root", password="a", database="library_system")  
         cursor = db.cursor()  
         sql_query = "SELECT user_name, password, credit FROM users WHERE user_account = %s"  
         values = (account,)  
@@ -57,7 +57,7 @@ def login():
     if request.method == 'POST':
         account = request.form['account']
         password = request.form['password']
-        db = pymysql.connect(host="localhost", user="root", password="egwegwegw612", database="library_system")
+        db = pymysql.connect(host="localhost", user="root", password="a", database="library_system")
         cursor = db.cursor()
         sql_query = "SELECT password FROM users WHERE user_account = %s"  
         values = (account,)  
@@ -81,7 +81,7 @@ def regist():
         password = request.form.get('password')
         repassword = request.form.get('repassword')
         if password == repassword:
-            db = pymysql.connect(host="localhost", user="root", password="egwegwegw612", database="library_system")
+            db = pymysql.connect(host="localhost", user="root", password="a", database="library_system")
             cursor = db.cursor()
             # hashed_password = generate_password_hash(password)
             sql_query = "INSERT INTO users (user_name, password, credit) VALUES (%s, %s, %s)"

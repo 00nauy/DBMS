@@ -11,7 +11,7 @@ def register_user(username, password):
             host='localhost',  
             database='library_system',  
             user='root',  
-            password='egwegwegw612'  
+            password='a'  
         )  
         if connection.is_connected():  
             cursor = connection.cursor()  
@@ -37,7 +37,7 @@ def login_user(account, password):
             host='localhost',  
             database='library_system',  
             user='root',  
-            password='egwegwegw612'  
+            password='a'  
         )  
         if connection.is_connected():  
             cursor = connection.cursor()  
@@ -68,3 +68,13 @@ def login_user(account, password):
   
 # register_user('john_doe', 'mypassword')
 # login_user(125, 'mypassword')
+
+import socket
+
+def get_ip_address():
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    return ip_address
+
+ip = get_ip_address()
+print("本机IP地址为:", ip)

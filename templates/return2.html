@@ -1,0 +1,35 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>还书</title>  
+    <style>  
+    </style>  
+</head>  
+<body>  
+  
+<h1>查询结果</h1>  
+  
+<div class="borrow-info">  
+    <div>  
+        <label>书号:</label>  
+        <span id="book-id">{{result[0]}}</span>  
+    </div>  
+    <div>  
+        <label>用户号:</label>  
+        <span id="user-id">{{result[1]}}</span>  
+    </div>  
+    <div>  
+        <label>开始时间:</label>  
+        <span id="starttime">{{result[2]}}</span>  
+    </div>  
+    <div>  
+        <label>归还期限:</label>  
+        <span id="endddl">{{result[3]}}</span>  
+    </div>  
+</div>  
+<a href="/return2?book_id={{result[0]}}" class="button">确认已还</a> 
+  
+</body>  
+</html>
