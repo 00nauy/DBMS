@@ -4,8 +4,11 @@ from flask import request, render_template, redirect, url_for, flash, jsonify, a
 from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
 from werkzeug.security import generate_password_hash
 import datetime
+import threading  
+import time
 from user_base import User
 from manager_base import Manager
+from seats import seat_list, timejunc
 
 app = Flask(__name__)
 app.secret_key = 'abcdefg'
@@ -25,6 +28,11 @@ def load_user(user_id):
         return Manager.get_by_account(user_id)
 
 
+
+##################################################################
+## 用户模块（少数功能用户和管理员可共用）
+
+
 #登录页面  
 #对应模板文件为'login.html'
 @app.route('/', methods=['GET', 'POST'])  
@@ -39,7 +47,7 @@ def login():
             return redirect(url_for('login'))  
         login_user(user)  
         return redirect(url_for('index'))
-    return render_template('login.html')
+    return render_template('login.html')  
 
 
 #注册页面
@@ -54,8 +62,8 @@ def regist():
             db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
             cursor = db.cursor()
             hashed_password = generate_password_hash(password)
-            sql_query = "INSERT INTO users (user_name, password, credit) VALUES (%s, %s, %s)"
-            values = (name, hashed_password, 300) 
+            sql_query = "INSERT INTO users (user_name, password, credit, credit2) VALUES (%s, %s, %s, %s)"
+            values = (name, hashed_password, 300, 300) 
             cursor.execute(sql_query, values)
 
             sql_query = "SELECT MAX(user_account) FROM users"
@@ -104,6 +112,38 @@ def logout():
     return redirect(url_for('login')) 
 
 
+#注销功能，当用户或管理员在主页按下“注销”按钮时，将退出登录并跳转到登录页面，同时账号信息删除。
+@app.route('/logoff')  
+@login_required  
+def logoff():  
+    #用户
+    if isinstance(current_user, User): 
+        user_id = current_user.account
+        logout_user()  
+        #删除用户信息
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "DELETE FROM users WHERE user_account = %s"
+        values = (user_id,)
+        cursor.execute(sql_query, values) 
+        db.commit()
+        db.close() 
+    #管理员
+    else:
+        manager_id = current_user.account
+        logout_user()  
+        #删除管理员信息
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "DELETE FROM manager WHERE account = %s"
+        values = (manager_id,)
+        cursor.execute(sql_query, values) 
+        db.commit()
+        db.close()
+    return redirect(url_for('login'))
+
+
+
 #个人信息页，当用户在主页按下“查询个人信息”按钮时，跳转到个人信息页，展示用户的个人信息。
 #对应模板文件为'personal_info.html'
 @app.route('/personal_info', methods=['GET', 'POST'])
@@ -113,7 +153,7 @@ def ps_info():
         abort(403)
     if request.method == "GET":
         return render_template('personal_info.html', userid = current_user.account, 
-        username = current_user.name, usercredit = current_user.credit)
+        username = current_user.name, usercredit = current_user.credit, usercredit2 = current_user.credit2)
 
 
 #借阅信息页，当用户在主页按下“查询借阅信息”按钮时，跳转到借阅信息页，展示用户的当前借阅。
@@ -205,6 +245,195 @@ def borrow2():
             return '借阅点数不足！'
         #进入借书页2
         return render_template('borrow2.html', bookid = book_id)
+
+
+#座位列表，图书馆一共有100个座位，座位号分别为1到100.
+seat_list = [i+1 for i in range(100)]
+
+
+#预约座位页，当用户在主页按下“预约座位”按钮时，跳转到预约座位页1。
+#对应模板文件为'seats.html'，'seats3.html'
+@app.route('/reserve', methods=['GET', 'POST'])
+@login_required
+def reserve():
+    if not isinstance(current_user, User): 
+        abort(403)
+    if request.method == "POST":
+        hour = request.form.get('hour')
+        minute = request.form.get('minute')
+        hour2 = request.form.get('hour2')
+        minute2 = request.form.get('minute2')
+
+        today = datetime.datetime.today().date()
+        start_time = datetime.datetime.combine(today, datetime.time(int(hour), int(minute)))
+        end_time = datetime.datetime.combine(today, datetime.time(int(hour2), int(minute2)))
+        if(start_time < datetime.datetime.now()):
+            return '开始时间不得早于当前时间！'
+        if(end_time - start_time < datetime.timedelta(hours=1)):
+            return '结束时间须至少比开始时间晚一小时！'
+        
+        ok_list = [i+1 for i in range(100)]
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "SELECT * FROM seats"
+        cursor.execute(sql_query)  
+        result = cursor.fetchall()
+        for res in result:
+            if timejunc(start_time,end_time,res[3],res[4]):
+                if int(res[1]) in ok_list:
+                    ok_list.remove(int(res[1]))
+        db.commit() 
+        db.close()
+        return render_template('seats3.html',seats=ok_list,t=today,t11=hour,t12=minute,t21=hour2,t22=minute2)
+    return render_template('seats.html',seats=seat_list)
+
+
+#预约座位页2，当用户在预约座位页1按下“查看预约情况”时，将跳转到此页面。
+#对应模板文件为'seats2.html'
+@app.route('/reserve2', methods=['GET', 'POST'])
+@login_required
+def reserve2():
+    if not isinstance(current_user, User): 
+        abort(403)
+    if request.method == "GET":
+        id = request.args.get('seat_id') 
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "SELECT * FROM seats WHERE place_id = %s AND DATE(start_time) = %s"
+        values = (id, datetime.date.today())
+        cursor.execute(sql_query, values)  
+        result = cursor.fetchall()
+        db.commit() 
+        db.close()
+        if len(result) == 0:
+            return '今日无预约记录！'
+        return render_template('seats2.html',result=result)
+
+
+#预约座位页3，当用户在预约座位页1按下”预约“按钮时，将进行相应操作并返回结果。
+@app.route('/reserve3', methods=['GET', 'POST'])
+@login_required
+def reserve3():
+    if not isinstance(current_user, User): 
+        abort(403)
+    #此处检查预约点数是否不足100，若不足100则无法预约
+    if current_user.credit2 < 100:
+        return '预约点数不足！'
+    if request.method == "GET":
+        id = request.args.get('seat_id')
+        today = datetime.datetime.strptime(request.args.get('t'), '%Y-%m-%d')
+        hour = request.args.get('t11')
+        minute = request.args.get('t12')
+        hour2 = request.args.get('t21')
+        minute2 = request.args.get('t22')
+        time1 = datetime.datetime.combine(today, datetime.time(int(hour), int(minute)))
+        time2 = datetime.datetime.combine(today, datetime.time(int(hour2), int(minute2)))
+        print("hahah!",time1, time2)
+
+        #可能存在座位已经被预约的情况，需要排除之
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "SELECT * FROM seats WHERE place_id = %s AND DATE(start_time) = %s"
+        values = (id, datetime.date.today())
+        cursor.execute(sql_query, values)
+        result = cursor.fetchall()
+        for res in result:
+            if timejunc(time1,time2,res[3],res[4]):
+                db.close()
+                return '此时间段已有预约！请重新预约！'
+
+        #更新座位信息表，新增一条记录
+        sql_query = "INSERT INTO seats (place_id,user_account,start_time,end_time,signed) VALUES (%s, %s, %s, %s, %s)"
+        values = (id,current_user.account,time1,time2,0)
+        cursor.execute(sql_query, values)  
+
+        #修改用户信息表，扣除100预约点数
+        sql_query = "UPDATE users SET credit2 = credit2-100 WHERE user_account = %s"
+        values = (current_user.account,)
+        cursor.execute(sql_query, values) 
+        db.commit() 
+        db.close()
+        return '预约成功！'
+
+
+#预约信息页，当用户在主页按下“查询预约信息”按钮时，跳转到预约信息页，展示用户的当前预约。
+#对应模板文件为'borrow_info.html'
+@app.route('/reserve_info', methods=['GET', 'POST'])
+@login_required
+def rs_info():
+    if not isinstance(current_user, User): 
+        abort(403)
+    if request.method == "GET":
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "SELECT order_id, place_id, start_time, end_time, signed FROM seats WHERE user_account = %s"
+        values = (current_user.account,)  
+        cursor.execute(sql_query, values)  
+        result = cursor.fetchall()
+        info1 = '无预约记录!';info2 = '无预约记录!';info3 = '无预约记录!'
+        id_list = []
+        if (len(result)>=1):
+            if result[0][4] == 1:
+                signed = '是'
+            else:
+                signed = '否'
+            id_list.append(result[0][0])
+            info1 = '座位号：{} 开始时间：{} 结束时间：{} 签到状态：{}'.format(result[0][1],result[0][2],result[0][3],signed)
+        if (len(result)>=2):
+            if result[1][4] == 1:
+                signed = '是'
+            else:
+                signed = '否'
+            id_list.append(result[1][0])
+            info2 = '座位号：{} 开始时间：{} 结束时间：{} 签到状态：{}'.format(result[1][1],result[1][2],result[1][3],signed)
+        if (len(result)>=3):
+            if result[2][4] == 1:
+                signed = '是'
+            else:
+                signed = '否'
+            id_list.append(result[2][0])
+            info3 = '座位号：{} 开始时间：{} 结束时间：{} 签到状态：{}'.format(result[2][1],result[2][2],result[2][3],signed)
+        db.close()
+        return render_template('reserve_info.html', info1=info1,info2=info2,info3=info3,id_list=id_list,length=len(id_list))
+
+
+#提前结束，当用户在预约信息页按下“提前结束”按钮时，将进行相应操作。
+@app.route('/seatend', methods=['GET', 'POST'])
+@login_required
+def seatend():
+    if not isinstance(current_user, User): 
+        abort(403)
+    #判断预约是否已经结束
+    orderid = request.args.get('id')
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    cursor = db.cursor()
+    sql_query = "SELECT * FROM seats WHERE order_id = %s"
+    values = (orderid,)
+    cursor.execute(sql_query, values)
+    result = cursor.fetchone()
+    if result is None:
+        db.close()
+        return '预约已经结束了，无需再结束！'
+
+    #修改用户信息表，增加100预约点数
+    sql_query = "UPDATE users SET credit2 = credit2+100 WHERE user_account = %s"
+    values = (current_user.account,)
+    cursor.execute(sql_query, values) 
+
+    #结束预约，更新座位信息表，删除一条记录
+    sql_query = "DELETE FROM seats WHERE order_id = %s"
+    values = (orderid,)
+    cursor.execute(sql_query, values)
+    db.commit() 
+    db.close()
+    return "成功结束预约！"
+
+
+
+
+##################################################################
+## 管理员模块
+
 
 
 #管理员登录页面  
@@ -411,6 +640,109 @@ def returnbook2():
     return '已确认还书！'
 
 
+#签到页面，当管理员在主页按下“签到管理”按钮时，跳转到此页面，管理员需要在此页面输入用户号，若存在对应记录，则跳转到签到页面2。
+#签到页面1对应模板文件为'sign.html'，签到页面2对应模板文件为'sign2.html'
+@app.route('/sign', methods=['GET', 'POST'])
+@login_required
+def seatsign():
+    if not isinstance(current_user, Manager): 
+        abort(403)
+    if request.method == "POST":
+        #读取信息
+        user_id = request.form['id']  
+        if not user_id.isdigit(): 
+            return '请输入一个整数！'
+        #在座位信息表中根据用户号查询预约记录
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "SELECT * FROM seats WHERE user_account = %s"
+        values = (user_id,)
+        cursor.execute(sql_query, values) 
+        result = cursor.fetchall()
+        if len(result) == 0:
+            return '无预约记录！'
+        db.commit()
+        db.close()
+        return render_template('sign2.html',result = result) 
+    return render_template('sign.html')
+
+
+#当管理员在签到页面2按下“确认已到”时，进行签到操作并返回操作结果信息。
+@app.route('/sign2', methods=['GET', 'POST'])
+@login_required
+def seatsign2():
+    if not isinstance(current_user, Manager): 
+        abort(403)
+    id = request.args.get('id')
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    cursor = db.cursor()
+    #可能存在“确认已到”按钮亮起，但其实已经签到的情况，应该排除之
+    sql_query = "SELECT * FROM seats WHERE order_id = %s"
+    values = (id,)
+    cursor.execute(sql_query, values)
+    result = cursor.fetchone()
+    if result[5] == 1:
+        db.close()
+        return '已经签过到了！'
+    #如果此时时间比开始时间提前十分钟以上，则无法签到
+    if result[3] - datetime.datetime.now() > datetime.timedelta(minutes=10):
+        db.close()
+        return '在开始时间前十分钟方可签到！'
+
+    #更新座位信息表，将签到信息进行设置
+    sql_query1 = "UPDATE seats SET signed = 1 WHERE order_id = %s"
+    values1 = (id,)
+    cursor.execute(sql_query1, values1) 
+    db.commit()
+    db.close()
+    return '已签到！'
+
+
+#座位预约自动处理：每分钟系统将自动对数据库进行扫描，对“预约自然结束”和“因未签到导致预约强制结束”两种情况进行相应操作。
+def scan_database():  
+    print("自动扫描已启动！")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    cursor = db.cursor()
+    while True:  
+        # 计算下一分钟的开始时间  
+        now = datetime.datetime.now()  
+        next_minute = now + datetime.timedelta(minutes=1)  
+        next_minute = next_minute.replace(second=0, microsecond=0)  
+  
+        # 等待到下一分钟的开始  
+        wait_time = (next_minute - now).total_seconds()  
+        time.sleep(wait_time)  
+        print(f"Scanning database at {datetime.datetime.now()}")
+
+        #查找所有开始时间后30min内未签到的座位预约，强制结束预约，用户不会恢复预约点数
+        sql_query = "DELETE FROM seats WHERE start_time < %s AND signed = 0"
+        values = (datetime.datetime.now()-datetime.timedelta(minutes=30),)
+        cursor.execute(sql_query, values) 
+
+        #查找所有满足自然结束条件的座位预约，为用户恢复100预约点数并结束预约
+        sql_query = "SELECT user_account FROM seats WHERE end_time < %s"
+        values = (datetime.datetime.now(),)
+        cursor.execute(sql_query, values) 
+        result = cursor.fetchall()
+        for i in result:
+            #修改用户信息表，增加100预约点数
+            sql_query = "UPDATE users SET credit2 = credit2+100 WHERE user_account = %s"
+            values = (i[0],)
+            cursor.execute(sql_query, values)
+
+        #修改座位信息表，删除相应记录
+        sql_query = "DELETE FROM seats WHERE end_time < %s"
+        values = (datetime.datetime.now(),)
+        cursor.execute(sql_query, values) 
+        db.commit()
+
+
+#座位预约自动处理
+def start_database_scanner():  
+    thread = threading.Thread(target=scan_database)  
+    thread.start()
+
+
 # 查询页面，用户可以在此页面输入书名、作者、类别进行搜索，搜索结果将显示在同一页面，且用户可以直接借阅。
 @app.route('/search', methods=['GET'])
 @login_required
@@ -509,4 +841,5 @@ def delete_announcement(id):
 
 
 if __name__ == '__main__':
+    start_database_scanner()
     app.run(debug=True)

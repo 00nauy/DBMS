@@ -1,0 +1,40 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>预约信息页面</title>  
+    <style>  
+    </style>  
+</head>  
+<body>  
+  
+<h1>我的预约</h1>  
+  
+<div class="user-info">  
+    <div>  
+        <label>预约记录1:</label>  
+        <span id="info">{{info1}}</span>  
+        {% if length >= 1 %}  
+            <a href="/seatend?id={{id_list[0]}}" class="button">提前结束</a> 
+        {% endif %} 
+    </div>  
+    <div>  
+        <label>预约记录2:</label>  
+        <span id="info">{{info2}}</span>  
+        {% if length >= 2 %}  
+            <a href="/seatend?id={{id_list[1]}}" class="button">提前结束</a> 
+        {% endif %} 
+    </div>  
+    <div>  
+        <label>预约记录3:</label>  
+        <span id="info">{{info3}}</span> 
+        {% if length >= 3 %}  
+            <a href="/seatend?id={{id_list[2]}}" class="button">提前结束</a> 
+        {% endif %} 
+    </div>  
+</div>  
+  
+  
+</body>  
+</html>
