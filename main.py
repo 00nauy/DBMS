@@ -4,6 +4,8 @@ from flask import request, render_template, redirect, url_for, flash, jsonify, a
 from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
 from werkzeug.security import generate_password_hash
 import datetime
+import threading  
+import time
 from user_base import User
 from manager_base import Manager
 from seats import seat_list, timejunc
@@ -24,6 +26,11 @@ def load_user(user_id):
         return User.get_by_account(user_id)
     else:
         return Manager.get_by_account(user_id)
+
+
+
+##################################################################
+## 用户模块（少数功能用户和管理员可共用）
 
 
 #登录页面  
@@ -81,12 +88,44 @@ def index():
         return render_template('index.html', username = current_user.name)
 
 
-#登出页面，当用户或管理员在主页按下“退出登录”按钮时，将退出登录并跳转到登录页面。
+#登出功能，当用户或管理员在主页按下“退出登录”按钮时，将退出登录并跳转到登录页面。
 @app.route('/logout')  
 @login_required  
 def logout():  
     logout_user()  
     return redirect(url_for('login')) 
+
+
+#注销功能，当用户或管理员在主页按下“注销”按钮时，将退出登录并跳转到登录页面，同时账号信息删除。
+@app.route('/logoff')  
+@login_required  
+def logoff():  
+    #用户
+    if isinstance(current_user, User): 
+        user_id = current_user.account
+        logout_user()  
+        #删除用户信息
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "DELETE FROM users WHERE user_account = %s"
+        values = (user_id,)
+        cursor.execute(sql_query, values) 
+        db.commit()
+        db.close() 
+    #管理员
+    else:
+        manager_id = current_user.account
+        logout_user()  
+        #删除管理员信息
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        sql_query = "DELETE FROM manager WHERE account = %s"
+        values = (manager_id,)
+        cursor.execute(sql_query, values) 
+        db.commit()
+        db.close()
+    return redirect(url_for('login'))
+
 
 
 #个人信息页，当用户在主页按下“查询个人信息”按钮时，跳转到个人信息页，展示用户的个人信息。
@@ -394,8 +433,8 @@ def seatend():
 
 
 
-
-
+##################################################################
+## 管理员模块
 
 
 
@@ -661,6 +700,51 @@ def seatsign2():
     return '已签到！'
 
 
+#座位预约自动处理：每分钟系统将自动对数据库进行扫描，对“预约自然结束”和“因未签到导致预约强制结束”两种情况进行相应操作。
+def scan_database():  
+    print("自动扫描已启动！")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    cursor = db.cursor()
+    while True:  
+        # 计算下一分钟的开始时间  
+        now = datetime.datetime.now()  
+        next_minute = now + datetime.timedelta(minutes=1)  
+        next_minute = next_minute.replace(second=0, microsecond=0)  
+  
+        # 等待到下一分钟的开始  
+        wait_time = (next_minute - now).total_seconds()  
+        time.sleep(wait_time)  
+        print(f"Scanning database at {datetime.datetime.now()}")
+
+        #查找所有开始时间后30min内未签到的座位预约，强制结束预约，用户不会恢复预约点数
+        sql_query = "DELETE FROM seats WHERE start_time < %s AND signed = 0"
+        values = (datetime.datetime.now()-datetime.timedelta(minutes=30),)
+        cursor.execute(sql_query, values) 
+
+        #查找所有满足自然结束条件的座位预约，为用户恢复100预约点数并结束预约
+        sql_query = "SELECT user_account FROM seats WHERE end_time < %s"
+        values = (datetime.datetime.now(),)
+        cursor.execute(sql_query, values) 
+        result = cursor.fetchall()
+        for i in result:
+            #修改用户信息表，增加100预约点数
+            sql_query = "UPDATE users SET credit2 = credit2+100 WHERE user_account = %s"
+            values = (i[0],)
+            cursor.execute(sql_query, values)
+
+        #修改座位信息表，删除相应记录
+        sql_query = "DELETE FROM seats WHERE end_time < %s"
+        values = (datetime.datetime.now(),)
+        cursor.execute(sql_query, values) 
+        db.commit()
+
+
+#座位预约自动处理
+def start_database_scanner():  
+    thread = threading.Thread(target=scan_database)  
+    thread.start()
+
 
 if __name__ == '__main__':
+    start_database_scanner()
     app.run(debug=True)

@@ -23,14 +23,14 @@ if __name__ == '__main__':
     # db.commit() 
     # db.close()
 
-    date_time_str1 = "2024-05-29 9:30"
+    date_time_str1 = "2024-05-30 9:30"
     date_time_obj1 = datetime.datetime.strptime(date_time_str1, "%Y-%m-%d %H:%M")
-    date_time_str2 = "2024-05-29 19:30"
+    date_time_str2 = "2024-05-30 11:40"
     date_time_obj2 = datetime.datetime.strptime(date_time_str2, "%Y-%m-%d %H:%M")
     db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
     cursor = db.cursor()
     sql_query = "INSERT INTO seats (place_id,user_account,start_time,end_time,signed) VALUES (%s, %s, %s, %s, %s)"
-    values = (4,132,date_time_obj1,date_time_obj2,0) 
+    values = (10,132,date_time_obj1,date_time_obj2,1) 
     cursor.execute(sql_query, values)  
     db.commit()
     db.close()
