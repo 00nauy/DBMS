@@ -1,0 +1,46 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>发布公告</title>  
+</head>  
+<body>  
+    <h1>发布公告</h1>
+    <form action="/announcement" method="post">  
+        <label for="title">标题:</label>  
+        <input type="text" id="title" name="title" required><br><br>  
+
+        <label for="content">内容:</label>  
+        <input type="text" id="content" name="content" required><br><br>  
+
+        <input type="submit" value="提交">
+    </form>  
+    <h2>删除公告</h2>
+    <ul>
+        {% for announcement_id, title, content, pubtime in announcements %}
+            <li>
+                <strong>{{ title }}</strong> - {{ content }} (Posted on {{ pubtime }})
+                <!-- 删除按钮 -->
+                <form action="{{ url_for('delete_announcement', id=announcement_id) }}" method="post">
+                    <input type="submit" value="删除" onclick="return confirm('确定要删除这条公告吗？');">
+                </form>
+            </li>
+        {% else %}
+            <li>一条公告都没发。</li>
+        {% endfor %}
+    </ul>
+    <!-- Pagination控件 -->
+    {% if total_pages > 1 %}
+        <div>
+            {% for page_num in range(1, total_pages + 1) %}
+                {% if page_num == current_page %}
+                    <span>{{ page_num }}</span>
+                {% else %}
+                    <a href="{{ url_for('index', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>  
+</html>

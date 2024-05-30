@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: rgba(243, 212, 212, 0.7);
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
+}
+
+.return-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+}
+
+.return-button img {
+    width: 100%;
+    height: 100%;
+}
+
+.user-info {
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 2;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
+    animation: flow 3s infinite alternate;
+}
+
+.user-info h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.user-info div {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #4c4747;
+    padding-bottom: 10px;
+}
+
+.user-info label {
+    font-weight: bold;
+    color: #666;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.user-info span {
+    color: #333;
+    display: block;
+}
+
+@keyframes flow {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px); /* 在动画的中间位置向上移动5像素 */
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

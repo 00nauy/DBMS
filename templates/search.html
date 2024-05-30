@@ -1,0 +1,50 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>书籍列表</title>  
+    <style>  
+        /* ... 你的CSS样式 ... */  
+    </style>  
+</head>  
+<body>  
+    <h1>Search</h1>
+    <form action="{{ url_for('search') }}" method="get">
+        <input type="text" name="book" placeholder="搜索书名">
+        <input type="text" name="author" placeholder="搜索作者名">
+        <select name="class">
+            <option value="">书目类别</option>
+            <option value="小说">小说</option>
+            <option value="计算机">计算机</option>
+            <option value="科学">科学</option>
+            <option value="history">历史</option>
+            <option value="technology">技术</option>
+        </select>
+        <input type="submit" value="Search">
+    </form>
+    {% if searched %}
+    {% if result %}
+        <ul id="book-list">  
+            {% for item in result %}
+                <li>
+                    书号：{{ item[0] }} 书名：{{ item[1] }} 类别：{{ item[2] }} 作者：{{ item[3] }} 出版社：{{ item[4] }} 出版时间：{{ item[5] }} 入库时间：{{ item[6] }}
+                    <form action="/borrow2" method="get" class="book-action-form">  
+                        <input type="hidden" name="book_id" value="{{ item[0] }}">  
+                        {% if item[7] == 0 %}  
+                            <button type="submit" class="button">借阅</button>  
+                        {% else %}  
+                            <span class="button disabled">已被借出</span>  
+                        {% endif %}  
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>未找到符合条件的书籍。</p>
+    {% endif %}
+    {% else %}
+        <p>请输入搜索条件进行查询。</p>
+    {% endif %}
+</body>  
+</html>

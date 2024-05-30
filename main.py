@@ -79,16 +79,32 @@ def regist():
 
 #主页，当用户登录成功后，进入主页
 #对应模板文件为'index.html'
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/index', defaults={'page': 1})
+@app.route('/index/<int:page>', methods=['GET', 'POST'])
 @login_required
-def index():
+def index(page):
     if not isinstance(current_user, User): 
         abort(403)
     if request.method == "GET":
-        return render_template('index.html', username = current_user.name)
+        # 连接数据库
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+
+        # 每页显示10条公告
+        items_per_page = 10
+        offset = (page - 1) * items_per_page
+        cursor.execute("SELECT title, content, pubtime FROM announcements ORDER BY pubtime DESC LIMIT %s OFFSET %s", (items_per_page, offset))  # 查询当前页的公告
+        announcements = cursor.fetchall()
+        cursor.execute("SELECT COUNT(*) FROM announcements")    # 查询总公告数
+        total_count = cursor.fetchone()[0]
+        total_pages = (total_count + items_per_page - 1) // items_per_page  # 计算总页数
+        db.close()
+
+        return render_template( 'index.html', 
+                                username=current_user.name, announcements=announcements, total_pages=total_pages, current_page=page)
 
 
-#登出功能，当用户或管理员在主页按下“退出登录”按钮时，将退出登录并跳转到登录页面。
+#登出页面，当用户或管理员在主页按下“退出登录”按钮时，将退出登录并跳转到登录页面。
 @app.route('/logout')  
 @login_required  
 def logout():  
@@ -163,24 +179,6 @@ def br_info():
             info3 = '书号：{} 用户号：{} 开始时间：{} 归还期限：{}'.format(result[2][0],current_user.account,result[2][1],result[2][2])
         db.close()
         return render_template('borrow_info.html', info1=info1,info2=info2,info3=info3)
-
-
-#借书页1，当用户在主页按下“借书”按钮时，跳转到借书页1，这个页面将向用户展示书籍列表。
-#对应模板文件为'borrow.html'
-@app.route('/borrow', methods=['GET', 'POST'])
-@login_required
-def borrow():
-    if not isinstance(current_user, User): 
-        abort(403)
-    if request.method == "GET":
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
-        cursor = db.cursor()
-        sql_query = "SELECT * FROM books"
-        cursor.execute(sql_query)  
-        result = cursor.fetchall()
-        db.commit() 
-        db.close()
-        return render_template('borrow.html',result=result)
 
 
 #借书页2，当用户在借书页1按下“借阅”按钮时，跳转到借书页2，用户在这个页面设置借阅时长。
@@ -743,6 +741,103 @@ def scan_database():
 def start_database_scanner():  
     thread = threading.Thread(target=scan_database)  
     thread.start()
+
+
+# 查询页面，用户可以在此页面输入书名、作者、类别进行搜索，搜索结果将显示在同一页面，且用户可以直接借阅。
+@app.route('/search', methods=['GET'])
+@login_required
+def search():
+    if request.method == "GET":
+        # 从请求中获取参数
+        book_name = request.args.get('book', '')
+        author = request.args.get('author', '')
+        category = request.args.get('class', '')
+
+        # 检查是否有输入搜索条件
+        if book_name or author or category:
+            db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+            cursor = db.cursor()
+            sql_query = """
+                        SELECT * FROM books 
+                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s
+                        """
+            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%')
+            cursor.execute(sql_query, values)
+            result = cursor.fetchall()
+            db.close()
+            # 传递结果到模板，包括一个标识符表示有搜索执行
+            return render_template('search.html', result=result, searched=True)
+        else:
+            # 如果没有任何搜索条件，设置result为空并传递一个标识符表示未执行搜索
+            return render_template('search.html', result=None, searched=False)
+        
+    # 如果不是GET请求，返回空搜索页面
+    return render_template('search.html')
+
+
+# 公告页面，管理员可以在此页面发布公告与删除公告。
+@app.route('/announcement', methods=['GET', 'POST'])
+@login_required
+def announcement():
+    #若当前用户不是管理员，则禁止访问
+    if not isinstance(current_user, Manager): 
+        abort(403)
+    if request.method == "POST":
+        # 从请求中获取公告内容
+        title = request.form.get('title', '').strip()
+        content = request.form.get('content', '').strip()
+        # 检查标题和内容是否为空
+        if not title or not content:
+            flash('标题和内容都不能为空！')
+            return render_template('announcement.html')
+        # 获取当前时间
+        current_date = datetime.date.today()
+        # 更新数据库
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        cursor = db.cursor()
+        cursor.execute("SELECT MAX(announcement_id) FROM announcements")
+        new_id = cursor.fetchone()[0]
+        new_id = new_id + 1 if new_id else 1
+        sql_query = "INSERT INTO announcements (announcement_id, title, content, pubtime) VALUES (%s, %s, %s, %s)"
+        values = (new_id, title, content, current_date)
+        cursor.execute(sql_query, values)
+        db.commit()
+        db.close()
+        return redirect(url_for('announcement'))
+    
+    # 分页显示公告
+    page = request.args.get('page', 1, type=int)
+    items_per_page = 20
+    offset = (page - 1) * items_per_page
+
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    cursor = db.cursor()
+    cursor.execute("SELECT announcement_id, title, content, pubtime FROM announcements ORDER BY pubtime DESC LIMIT %s OFFSET %s", (items_per_page, offset))
+    announcements = cursor.fetchall()
+
+    # 获取总公告数
+    cursor.execute("SELECT COUNT(*) FROM announcements")
+    total_count = cursor.fetchone()[0]
+    db.close()
+
+    total_pages = (total_count + items_per_page - 1) // items_per_page
+
+    return render_template('add_ann.html', announcements=announcements, total_pages=total_pages, current_page=page)
+
+
+@app.route('/delete_announcement/<int:id>', methods=['POST'])
+@login_required
+def delete_announcement(id):
+    if not isinstance(current_user, Manager): 
+        abort(403)  # 只有验证过的用户可以删除公告
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM announcements WHERE announcement_id = %s", (id,))
+    db.commit()
+    db.close()
+    flash('公告已删除')
+    return redirect(url_for('announcement'))  # 删除后重定向到公告页面
+
 
 
 if __name__ == '__main__':
