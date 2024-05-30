@@ -1,47 +1,15 @@
-/* body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    background-size: cover;
- 
- 
-    background: url(../images/index.jpg) no-repeat fixed center 0;
-    -webkit-background-size: cover;
-    -o-background-size: cover;
-    -moz-background-size: cover;
-    -ms-background-size: cover;
- 
-}
-  */
-
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    overflow-x: hidden; /* 允许垂直滚动 */
     position: relative;
     background-color: #f0f0f0;
+    background-attachment: fixed;
 }
 
-/* .background-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background-size: cover;
-    background-position: center;
-    transition: opacity 1s ease-in-out;
-} */
-
 .background-image {
-    position: absolute;
+    position: fixed; /* 背景固定 */
     top: 0;
     left: 0;
     width: 100%;
@@ -57,9 +25,6 @@ body {
     opacity: 1;
 }
 
-
-
-
 .header-container {
     position: absolute;
     top: 20px;
@@ -69,105 +34,198 @@ body {
 }
 
 .header {
-    color: #333; /* 更改标题颜色为深灰色 */
-    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace; /* 使用手写风格的字体 */
+    color: #333;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
     font-size: 36px;
     font-weight: bold;
-    padding: 10px 20px; /* 添加内边距 */
-    border-radius: 10px; /* 圆角边框 */
-    background-color: rgba(255, 255, 255, 0.5); /* 半透明的白色背景 */
-    white-space: nowrap; /* 阻止标题换行 */
-    animation: flow 3s infinite alternate; /* 使用流动动画，3秒持续时间，无限循环，来回运动 */
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    animation: flow 3s infinite alternate;
 }
 
-
-
 .welcome-text {
-    color: #333; /* 更改文本颜色为深灰色 */
-    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace; /* 使用手写风格的字体 */
+    color: #333;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
     font-size: 24px;
     text-align: center;
     z-index: 2;
-    position: relative;
-    margin-top: 10px;
     padding: 10px 20px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.7);
+    animation: flow 3s infinite alternate;
+    display: block; 
+    width: fit-content; /* 使宽度自适应内容 */
+    max-width: 80%; /* 设置最大宽度 */
+    position: relative;
+    margin-left: auto; /* 居中对齐 */
+    margin-right: auto; /* 居中对齐 */
+    top: 150px
 }
-
 
 @keyframes flow {
     0% {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-5px); /* 在动画的中间位置向上移动5像素 */
+        transform: translateY(-5px);
     }
     100% {
         transform: translateY(0);
     }
 }
 
-.welcome-text {
-    animation: flow 3s infinite alternate; /* 使用流动动画，3秒持续时间，无限循环，来回运动 */
-}
-
-
-
-/* .button-container {
+.logout-container {
+    position: absolute;
+    top: 60px;
+    right: 60px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
+    gap: 10px;
     z-index: 2;
-    position: relative;
 }
 
-.button {
+.button.small-button {
     width: 100px;
-    height: 100px;
-    border: none;
-    color: white;
-    text-align: center;
+    height: 80px;
+    font-size: 18px;
+    line-height: 80px;
+}
+
+.announcement-container {
+    margin-top: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 2;
+    text-align: left;
+    width: 80%;
+    max-width: 600px; /* 设置最大宽度 */
+    height: 300px; /* 固定高度 */
+    overflow-y: auto; /* 如果内容超出容器高度，则出现滚动条 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    font-family: Arial, sans-serif; /* 统一字体 */
+    margin-left: auto; /* 居中对齐 */
+    margin-right: auto; /* 居中对齐 */
+    position: relative;
+    /* animation: flow 3s infinite alternate; */
+}
+
+.announcement-container h2 {
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace; /* 使用特殊字体 */
+    color: #333;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #333; /* 在标题下添加一条线 */
+    padding-bottom: 10px;
+}
+
+.announcement-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.announcement-item {
+    margin: 10px 0;
+    color: #333;
+    white-space: nowrap; /* 防止换行 */
+    overflow: hidden; /* 隐藏超出部分 */
+    text-overflow: ellipsis; /* 使用省略号代替超出部分 */
+    display: flex;
+    align-items: center;
+}
+
+.announcement-link {
+    color: #000;
     text-decoration: none;
-    font-size: 14px;
-    line-height: 100px;
-    border-radius: 50%;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    flex: 1; /* 使链接部分占据可用空间 */
+    white-space: nowrap; /* 防止链接部分换行 */
+    overflow: hidden; /* 隐藏超出部分 */
+    text-overflow: ellipsis; /* 使用省略号代替超出部分 */
 }
 
-.button:hover {
-    transform: translateY(-20px);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+.announcement-link:hover {
+    text-decoration: underline;
 }
 
-.button:nth-child(1) {
-    background-color: rgba(255, 87, 51, 0.5); 
+.announcement-time {
+    color: #666;
+    margin-left: 10px; /* 给日期和链接之间添加一些间距 */
+    white-space: nowrap; /* 防止日期换行 */
 }
 
-.button:nth-child(2) {
-    background-color: rgba(57, 41, 199, 0.5); 
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-.button:nth-child(3) {
-    background-color: rgba(248, 91, 214, 0.5); 
+.pagination a,
+.pagination span {
+    margin: 0 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
 }
 
-.button:nth-child(4) {
-    background-color: rgba(221, 238, 67, 0.5); 
-} */
+.pagination a:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* 悬停时背景颜色变化 */
+}
+
+.pagination span {
+    font-weight: bold;
+}
+
+/* 弹出窗口样式 */
+.modal {
+    display: none; /* 隐藏弹出窗口 */
+    position: fixed; /* 固定位置 */
+    z-index: 3; /* 置于顶层 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* 允许滚动 */
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+}
+
+.modal-content {
+    background-color: rgba(245, 255, 240, 0.712);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px; /* 设置最大宽度 */
+    border-radius: 10px; /* 圆角 */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 
 .button-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
     z-index: 2;
-    position: relative;
-    margin-top: 50px;
+    margin-top: 80px;
 }
 
 .button {
@@ -184,9 +242,9 @@ body {
     transition: all 0.3s ease;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     position: relative;
-    animation: float 5s infinite ease-in-out;
+    animation: float 6s infinite ease-in-out;
     overflow: hidden;
-    font-family: 'Pacifico', cursive; 
+    font-family: 'Pacifico', cursive;
 }
 
 .button:before {
@@ -223,23 +281,36 @@ body {
 }
 
 .button:nth-child(1) {
-    background-color: rgba(204, 28, 28, 0.7); 
-    margin-top: 20px;
+    background-color: rgba(32, 146, 190, 0.7);
+    animation-delay: 0s;
 }
 
 .button:nth-child(2) {
-    background-color: rgba(41, 228, 215, 0.7);
-    margin-top: -40px;
+    background-color: rgba(243, 84, 208, 0.705);
+    animation-delay: 0.8s;
 }
 
 .button:nth-child(3) {
-    background-color: rgba(7, 73, 85, 0.7); 
-    margin-top: 20px;
+    background-color: rgba(7, 73, 85, 0.7);
+    animation-delay: 1.6s;
 }
 
 .button:nth-child(4) {
-    background-color: rgba(214, 93, 93, 0.7); 
-    margin-top: -40px;
+    background-color: rgba(214, 93, 93, 0.7);
+    animation-delay: 2.4s;
+}
+
+.button:nth-child(5) {
+    background-color: rgba(204, 28, 28, 0.7);
+    animation-delay: 3.2s;
+}
+
+.button.small-button:nth-child(1) {
+    background-color: rgba(245, 12, 12, 0.7);
+}
+
+.button.small-button:nth-child(2) {
+    background-color: rgba(3, 3, 3, 0.7);
 }
 
 @keyframes pop {
@@ -258,11 +329,9 @@ body {
 
 .button.pop {
     animation: pop 0.4s forwards;
-    background-color: rgba(255, 255, 255, 0); /* 隐藏背景色以模拟破碎效果 */
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .button.pop:before {
-    display: none; /* 隐藏光泽效果 */
+    display: none;
 }
-
-

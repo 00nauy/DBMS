@@ -90,8 +90,8 @@ def index(page):
         db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
         cursor = db.cursor()
 
-        # 每页显示10条公告
-        items_per_page = 10
+        # 每页显示6条公告
+        items_per_page = 6
         offset = (page - 1) * items_per_page
         cursor.execute("SELECT title, content, pubtime FROM announcements ORDER BY pubtime DESC LIMIT %s OFFSET %s", (items_per_page, offset))  # 查询当前页的公告
         announcements = cursor.fetchall()
