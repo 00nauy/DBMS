@@ -1,4 +1,5 @@
 import requests
+import json
 
 def get_book_data_from_douban(query, max_results=10):
     url = "https://api.douban.com/v2/book/search"
@@ -29,7 +30,16 @@ def get_book_data_from_douban(query, max_results=10):
         print(f"Request failed: {e}")
     return []
 
+def save_to_json(book_data, filename='book_data.json'):
+    with open(filename, 'w', encoding='utf-8') as file:
+        json.dump(book_data, file, ensure_ascii=False, indent=4)
+
+
+
 query = "计算机科学"
-book_data = get_book_data_from_douban(query, max_results=10)
-for book in book_data:
-    print(book)
+max_results = 100
+book_data = get_book_data_from_douban(query, max_results)
+for i in range(0, len(book_data), 5):
+    print(" | ".join(f"{book['title']}" for book in book_data[i:i+5]))
+
+save_to_json(book_data)
