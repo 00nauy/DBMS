@@ -7,5 +7,6 @@
 templates文件夹中是项目所用到的html模板文件。
 
 static文件夹中是一些与html模板的渲染相关的文件。
+css, images, js分别存放css， 图片和JavaScript文件
 
 使用的数据库是mysql，可以通过navicat远程连接数据库，能够较方便地访问与编辑数据库内容。
