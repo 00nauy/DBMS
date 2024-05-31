@@ -13,14 +13,7 @@
     <form action="{{ url_for('search') }}" method="get">
         <input type="text" name="book" placeholder="搜索书名">
         <input type="text" name="author" placeholder="搜索作者名">
-        <select name="class">
-            <option value="">书目类别</option>
-            <option value="小说">小说</option>
-            <option value="计算机">计算机</option>
-            <option value="科学">科学</option>
-            <option value="history">历史</option>
-            <option value="technology">技术</option>
-        </select>
+        <input type="text" name="class" placeholder="搜索关键词">
         <input type="submit" value="Search">
     </form>
     {% if searched %}
