@@ -267,12 +267,18 @@ def reserve():
         today = datetime.datetime.today().date()
         start_time = datetime.datetime.combine(today, datetime.time(int(hour), int(minute)))
         end_time = datetime.datetime.combine(today, datetime.time(int(hour2), int(minute2)))
-        if(start_time < datetime.datetime.now()):
-            return '开始时间不得早于当前时间！'
-        if(end_time - start_time < datetime.timedelta(hours=1)):
-            return '结束时间须至少比开始时间晚一小时！'
+        # if(start_time < datetime.datetime.now()):
+        #     return '开始时间不得早于当前时间！'
+        # if(end_time - start_time < datetime.timedelta(hours=1)):
+        #     return '结束时间须至少比开始时间晚一小时！'
+        if start_time < datetime.datetime.now():
+            return jsonify({'error': '开始时间不得早于当前时间！'})
+        if end_time - start_time < datetime.timedelta(hours=1):
+            return jsonify({'error': '结束时间须至少比开始时间晚一小时！'})
         
-        ok_list = [i+1 for i in range(100)]
+        # ok_list = [i+1 for i in range(100)]
+        available_seats = [i + 1 for i in range(100)]
+        conflicting_seats = []
         db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT * FROM seats"
@@ -280,11 +286,26 @@ def reserve():
         result = cursor.fetchall()
         for res in result:
             if timejunc(start_time,end_time,res[3],res[4]):
-                if int(res[1]) in ok_list:
-                    ok_list.remove(int(res[1]))
+                # if int(res[1]) in ok_list:
+                #     ok_list.remove(int(res[1]))
+                conflicting_seats.append(int(res[1]))
+                if int(res[1]) in available_seats:
+                    available_seats.remove(int(res[1]))
         db.commit() 
         db.close()
-        return render_template('seats3.html',seats=ok_list,t=today,t11=hour,t12=minute,t21=hour2,t22=minute2)
+
+        seats_info = {
+            'available': available_seats,
+            'conflicting': conflicting_seats
+        }
+        if available_seats:
+
+            # 传递渲染后的 HTML 页面内容
+            rendered_html = render_template('seats3.html', seats=seats_info, t=today, t11=hour, t12=minute, t21=hour2, t22=minute2)
+            return jsonify({'success': True, 'html': rendered_html})
+        else:
+            return jsonify({'error': '没有可用的座位！'})
+        # return render_template('seats3.html',seats=ok_list,t=today,t11=hour,t12=minute,t21=hour2,t22=minute2)
     return render_template('seats.html',seats=seat_list)
 
 

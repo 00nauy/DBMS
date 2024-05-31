@@ -6,7 +6,7 @@
 
 .sidebar {
     height: 100%;
-    width: 250px; /* Set the width of the sidebar */
+    width: 200px; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
@@ -14,12 +14,13 @@
     background-color: #1A292F;
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 20px;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;;
 }
 
 .sidebar a {
     padding: 30px 30px;
     text-decoration: none;
-    font-size: 24px;
+    font-size: 20px;
     color: white;
     display: block;
 }
@@ -34,4 +35,30 @@
     display: block;  /* 使LOGO在其容器中单独占一行 */
     margin: 0 auto;  /* 将LOGO居中显示在侧边栏 */
     padding: 20px 0;  /* 添加一些上下边距 */
+}
+
+
+
+
+
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
 }

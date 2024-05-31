@@ -4,87 +4,114 @@
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>座位预约</title>  
-    <style>  
-        /* ... 你的CSS样式 ... */  
-    </style>  
+    <link rel="stylesheet" href="../static/css/general.css">
+    <link rel="stylesheet" href="../static/css/seats.css">
 </head>  
 <body>  
-    <h1>座位预约</h1>  
-    <form id="timeForm" action="/reserve" method="post">  
-        <p>请选择开始时间：</p>
-        <label for="hour">时:</label> 
-        <select id="hour" name="hour" required>  
-            <script>  
-                var select = document.getElementById('hour');  
-                for (var i = 8; i <= 21; i++) {  
-                    var option = document.createElement('option');  
-                    option.value = i.toString(); 
-                    option.text = i.toString();
-                    select.appendChild(option);
-                }  
-            </script>  
-        </select> 
 
-        <label for="minute">分:</label> 
-        <select id="minute" name="minute" required>  
-            <script>  
-                var select = document.getElementById('minute');  
-                for (var i = 0; i <= 59; i++) {  
-                    var option = document.createElement('option');  
-                    option.value = i.toString(); 
-                    option.text = i.toString();
-                    select.appendChild(option);
-                }  
-            </script>  
-        </select>
+    <div class="background-image"></div>
 
-        <p>请选择结束时间：</p>
-        <label for="hour2">时:</label> 
-        <select id="hour2" name="hour2" required>  
-            <script>  
-                var select = document.getElementById('hour2');  
-                for (var i = 8; i <= 21; i++) {  
-                    var option = document.createElement('option');  
-                    option.value = i.toString(); 
-                    option.text = i.toString();
-                    select.appendChild(option);
-                }  
-            </script>  
-        </select> 
+    <div class="overlay"></div>
 
-        <label for="minute2">分:</label> 
-        <select id="minute2" name="minute2" required>  
-            <script>  
-                var select = document.getElementById('minute2');  
-                for (var i = 0; i <= 59; i++) {  
-                    var option = document.createElement('option');  
-                    option.value = i.toString(); 
-                    option.text = i.toString();
-                    select.appendChild(option);
-                }  
-            </script>  
-        </select>
+    
+    <div class="sidebar">
+        <img src="../static/images/LOGO.png" alt="LOGO" class="logo">
+        <a href="/index">主页</a>
+        <a href="/personal_info">查询个人信息</a>
+        <a href="/borrow_info">查询借阅信息</a>
+        <a href="/search">借书</a>
+        <a href="/reserve">预约座位</a>
+        <a href="/reserve_info">查询预约信息</a>
+    </div>
 
-        <input type="submit" value="查找">  
-    </form>
-    <ul id="seat-list">  
-        {% for item in seats %}
-		<li>座位号：{{item}}
-        <form action="/reserve2" method="get" class="seat-action-form">  
-            <input type="hidden" name="seat_id" value="{{item}}">  
-            <button type="submit" class="button">查看预约情况</button>  
-        </form>
-        <form action="/reserve3" method="get" class="seat-action-form">  
-            <input type="hidden" name="seat_id" value="{{item}}">
-            <input type="hidden" name="t" value={{t}}>
-            <input type="hidden" name="t11" value={{t11}}>  
-            <input type="hidden" name="t12" value={{t12}}> 
-            <input type="hidden" name="t21" value={{t21}}> 
-            <input type="hidden" name="t22" value={{t22}}> 
-            <button type="submit" class="button">预约</button>  
-        </form>
-	   	</li>
-	    {% endfor %}
-    </ul>  
+    <div class="body-content"></div>
+    <div class="content-wrapper">
+        <div class="reservation-container">
+            <h1>座位预约</h1>  
+            <div class="selected-time">
+                <p id="selected-time-text">当前选定时间段: </p>
+            </div>
+            <form id="timeForm" action="/reserve" method="post">  
+                <p>请选择开始时间：</p>
+                <label for="hour">时:</label> 
+                <select id="hour" name="hour" required></select>
+                
+                <label for="minute">分:</label> 
+                <select id="minute" name="minute" required></select>
+
+                <p>请选择结束时间：</p>
+                <label for="hour2">时:</label>
+                <select id="hour2" name="hour2" required></select>
+                
+                <label for="minute2">分:</label>
+                <select id="minute2" name="minute2" required></select>
+
+                <input type="submit" value="查找">
+            </form>
+        </div>
+
+        <div class="seats-container">
+            <h2>可预约座位</h2>
+            <ul id="available-seat-list">  
+                {% for seat in seats.available %}
+                    <li class="seat-item">座位号：{{ seat }}
+                        <form action="/reserve2" method="get" class="seat-action-form">  
+                            <input type="hidden" name="seat_id" value="{{ seat }}">  
+                            <button type="submit" class="button">查看预约情况</button>  
+                        </form>
+                        <form action="/reserve3" method="get" class="seat-action-form">  
+                            <input type="hidden" name="seat_id" value="{{ seat }}">
+                            <input type="hidden" name="t" value="{{ t }}">
+                            <input type="hidden" name="t11" value="{{ t11 }}">  
+                            <input type="hidden" name="t12" value="{{ t12 }}"> 
+                            <input type="hidden" name="t21" value="{{ t21 }}"> 
+                            <input type="hidden" name="t22" value="{{ t22 }}"> 
+                            <button type="submit" class="button">预约</button>  
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>  
+
+            <h2>冲突座位</h2>
+            <ul id="conflicting-seat-list">  
+                {% for seat in seats.conflicting %}
+                    <li class="seat-item">座位号：{{ seat }}
+                        <form action="/reserve2" method="get" class="seat-action-form">  
+                            <input type="hidden" name="seat_id" value="{{ seat }}">  
+                            <button type="submit" class="button">查看预约情况</button>  
+                        </form>
+                        <button class="button" disabled>预约</button> <!-- 不可预约按钮 -->
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    </div>
+
+
+    
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+    </div>
+
+    <script src="../static/js/populate_selects.js" type="text/javascript"></script>
+    <script src="../static/js/seat_error.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const t11 = '{{ t11 }}'.padStart(2, '0');
+            const t12 = '{{ t12 }}'.padStart(2, '0');
+            const t21 = '{{ t21 }}'.padStart(2, '0');
+            const t22 = '{{ t22 }}'.padStart(2, '0');
+
+            const selectedTimeText = document.getElementById('selected-time-text');
+            selectedTimeText.textContent = `当前选定时间段: ${t11}:${t12} - ${t21}:${t22}`;
+        });
+    </script>
+
+
 </body>  
 </html>
