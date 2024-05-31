@@ -33,6 +33,7 @@ const images = [
     '../static/images/index_background/8.jpg',
     '../static/images/index_background/9.jpg',
     '../static/images/index_background/10.jpg',
+    '../static/images/index_background/11.jpg',
 ];
 let currentIndex = 0;
 const bg1 = document.querySelector('.bg1');

@@ -1,0 +1,214 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden; /* 允许垂直滚动 */
+    position: relative;
+    background-color: #f0f0f0;
+    background-attachment: fixed;
+}
+
+.background-image {
+    position: fixed; /* 背景固定 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+}
+
+.background-image.bg1 {
+    opacity: 1;
+}
+
+.header-container {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.header {
+    color: #333;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
+    font-size: 36px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+    animation: flow 3s infinite alternate;
+}
+
+.welcome-text {
+    color: #333;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
+    font-size: 24px;
+    text-align: center;
+    z-index: 2;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    animation: flow 3s infinite alternate;
+    display: block; 
+    width: fit-content; /* 使宽度自适应内容 */
+    max-width: 80%; /* 设置最大宽度 */
+    position: relative;
+    margin-left: auto; /* 居中对齐 */
+    margin-right: auto; /* 居中对齐 */
+    top: 150px
+}
+
+@keyframes flow {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.logout-container {
+    position: absolute;
+    top: 60px;
+    right: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2;
+}
+
+.button.small-button {
+    width: 100px;
+    height: 80px;
+    font-size: 18px;
+    line-height: 80px;
+}
+
+
+
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    z-index: 2;
+    margin-top: 400px;
+}
+
+.button {
+    width: 150px;
+    height: 150px;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 150px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: float 6s infinite ease-in-out;
+    overflow: hidden;
+    font-family: 'Pacifico', cursive;
+}
+
+.button:before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%);
+    transform: rotate(45deg);
+    transition: opacity 0.3s ease;
+    opacity: 0.5;
+}
+
+.button:hover:before {
+    opacity: 0.8;
+}
+
+.button:hover {
+    animation-play-state: paused;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.button:nth-child(1) {
+    background-color: rgba(32, 146, 190, 0.7);
+    animation-delay: 0s;
+}
+
+.button:nth-child(2) {
+    background-color: rgba(243, 84, 208, 0.705);
+    animation-delay: 0.8s;
+}
+
+.button:nth-child(3) {
+    background-color: rgba(7, 73, 85, 0.7);
+    animation-delay: 1.6s;
+}
+
+.button:nth-child(4) {
+    background-color: rgba(214, 93, 93, 0.7);
+    animation-delay: 2.4s;
+}
+
+.button:nth-child(5) {
+    background-color: rgba(204, 28, 28, 0.7);
+    animation-delay: 3.2s;
+}
+
+.button.small-button:nth-child(1) {
+    background-color: rgba(245, 12, 12, 0.7);
+}
+
+.button.small-button:nth-child(2) {
+    background-color: rgba(3, 3, 3, 0.7);
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+.button.pop {
+    animation: pop 0.4s forwards;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.button.pop:before {
+    display: none;
+}

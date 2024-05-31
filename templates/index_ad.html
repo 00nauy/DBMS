@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -34,4 +34,42 @@
 <a href="/logout" class="button">退出登录</a> 
 <a href="/logoff" class="button">注销</a> 
 </body>  
-</html>
+</html> -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>登录成功页面</title>
+     <link rel="stylesheet" href="../static/css/index_ad.css">
+ </head>
+ <body>
+     <div class="background-image bg1"></div>
+     <div class="background-image bg2"></div>
+ 
+     <div class="header-container">
+         <h1 class="header">Library Management System Homepage</h1>
+     </div>
+ 
+     <div class="welcome-text">welcome back, {{username}}!</div>
+ 
+     <div class="logout-container">
+         <a href="/logout" class="button small-button" id="btn1">退出登录</a>
+         <a href="/logoff" class="button small-button" id="btn2">注销</a>
+     </div>
+ 
+
+     <div class="button-container">
+         <a href="/announcement" class="button" id="btn1">发布公告</a>
+         <a href="/addbook" class="button" id="btn2">上架书籍</a>
+         <a href="/delbook" class="button" id="btn3">下架书籍</a>
+         <a href="/return" class="button" id="btn4">还书</a>
+         <a href="/sign" class="button" id="btn5">签到管理</a>
+     </div>
+ 
+     <script src="../static/js/index_bg.js"></script>
+     <script src="../static/js/button_effect.js"></script>
+ </body>
+ </html>
+ 
