@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -32,6 +32,62 @@
         {% if length >= 3 %}  
             <a href="/seatend?id={{id_list[2]}}" class="button">提前结束</a> 
         {% endif %} 
+    </div>  
+</div>  
+  
+  
+</body>  
+</html> -->
+
+
+
+
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>预约信息页面</title>  
+    <link rel="stylesheet" href="../static/css/reserve_info.css">
+</head>  
+<body>  
+
+<div class="background-image"></div>
+
+<div class="overlay"></div>
+  
+<div class="header">
+    <h1>Library Management System</h1>
+</div>
+
+<!-- <a href="/index" class="return-button">
+    <img src="../static/images/homepage_icon.jpg" alt="返回主页">
+</a> -->
+
+
+  
+<div class="user-info">  
+    <h2>我的预约</h2>
+    <div>  
+        <label>预约记录1:</label>  
+        <span id="info">{{info1}}</span>  
+        {% if length >= 1 %}  
+            <a href="/seatend?id={{id_list[0]}}" class="button">提前结束</a> 
+        {% endif %} 
+    </div>  
+    <div>  
+        <label>预约记录2:</label>  
+        <span id="info">{{info2}}</span>  
+        {% if length >= 2 %}  
+            <a href="/seatend?id={{id_list[1]}}" class="button">提前结束</a> 
+        {% endif %}  
+    </div>  
+    <div>  
+        <label>预约记录3:</label>  
+        <span id="info">{{info3}}</span>  
+        {% if length >= 3 %}  
+            <a href="/seatend?id={{id_list[2]}}" class="button">提前结束</a> 
+        {% endif %}  
     </div>  
 </div>  
   
