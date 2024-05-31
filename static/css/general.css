@@ -1,0 +1,37 @@
+.body-content {
+    margin-left: 260px; /* Same as the width of the sidebar */
+    padding: 1px 16px;
+    height: 1000px; /* Sample height */
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #1A292F;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+}
+
+.sidebar a {
+    padding: 30px 30px;
+    text-decoration: none;
+    font-size: 24px;
+    color: white;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+.logo {
+    width: 180px;  /* 控制LOGO的宽度 */
+    height: auto;  /* 设置高度为自动，保持图片的纵横比 */
+    display: block;  /* 使LOGO在其容器中单独占一行 */
+    margin: 0 auto;  /* 将LOGO居中显示在侧边栏 */
+    padding: 20px 0;  /* 添加一些上下边距 */
+}

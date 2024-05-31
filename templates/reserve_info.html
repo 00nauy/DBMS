@@ -49,6 +49,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>预约信息页面</title>  
     <link rel="stylesheet" href="../static/css/reserve_info.css">
+    <link rel="stylesheet" href="../static/css/general.css">
 </head>  
 <body>  
 
@@ -56,16 +57,26 @@
 
 <div class="overlay"></div>
   
-<div class="header">
+<!-- <div class="header">
     <h1>Library Management System</h1>
-</div>
+</div> -->
 
 <!-- <a href="/index" class="return-button">
     <img src="../static/images/homepage_icon.jpg" alt="返回主页">
 </a> -->
 
 
-  
+<div class="sidebar">
+    <img src="../static/images/LOGO.png" alt="LOGO" class="logo">
+    <a href="/index">主页</a>
+    <a href="/personal_info">查询个人信息</a>
+    <a href="/borrow_info">查询借阅信息</a>
+    <a href="/search">借书</a>
+    <a href="/reserve">预约座位</a>
+    <a href="/reserve2">查询预约信息</a>
+</div>
+
+<div class="body-content">
 <div class="user-info">  
     <h2>我的预约</h2>
     <div>  
@@ -89,8 +100,8 @@
             <a href="/seatend?id={{id_list[2]}}" class="button">提前结束</a> 
         {% endif %}  
     </div>  
-</div>  
-  
+</div>
+</div>
   
 </body>  
 </html>
