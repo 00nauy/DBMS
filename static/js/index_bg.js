@@ -1,27 +1,4 @@
 
-// const images = [
-//     '../static/images/index1.jpg',
-//     '../static/images/index2.jpg',
-//     '../static/images/index3.jpg'
-// ];
-// let currentIndex = 0;
-
-// const changeBackgroundImage = () => {
-//     const backgroundImage = document.querySelector('.background-image');
-//     backgroundImage.style.opacity = 0;
-
-//     setTimeout(() => {
-//         backgroundImage.style.backgroundImage = `url('${images[currentIndex]}')`;
-//         backgroundImage.style.opacity = 1;
-//         currentIndex = (currentIndex + 1) % images.length;
-//     }, 1000); // 短暂的过渡时间
-// };
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     changeBackgroundImage();
-//     setInterval(changeBackgroundImage, 10000); // 让每张图片停留10秒
-// });
-
 const images = [
     '../static/images/index_background/1.jpg',
     '../static/images/index_background/2.jpg',
