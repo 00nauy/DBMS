@@ -25,24 +25,62 @@ body {
     opacity: 1;
 }
 
-.header-container {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
+.logo-container {
+    position: fixed;
+    height: 100vh;
+    width: 20%;
+    left: 0;
+    top: 0;
 }
 
-.header {
-    color: #333;
-    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
-    font-size: 36px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
-    white-space: nowrap;
-    animation: flow 3s infinite alternate;
+.logo-circle {
+    width: 300px;
+    height: 110%;
+    background-color: #1A292F;
+    border-radius: 0 100% 100% 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
+}
+
+.logo-logo {
+    width: 120px;
+    position: relative;
+    padding: 0 40px;
+    top: 25%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+}
+
+.logo-text {
+    width: 100px;
+    position: relative;
+    padding: 0 40px;
+    top: 42%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+}
+
+
+.bt-container {
+    position: fixed;
+    height: 100vh;
+    width: 20%;
+    right: 0;
+    top: 0;
+}
+
+.bt-circle {
+    width: 300px;
+    height: 110%;
+    background-color: #1A292F;
+    border-radius: 100% 0 0 100%;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
 }
 
 .welcome-text {

@@ -191,8 +191,6 @@ def br_info():
 @app.route('/search', methods=['GET'])
 @login_required
 def search():
-    if not isinstance(current_user, User): 
-        abort(403)
     if request.method == "GET":
         # 从请求中获取参数
         book_name = request.args.get('book', '')
@@ -379,7 +377,8 @@ def reserve3():
         abort(403)
     #此处检查预约点数是否不足100，若不足100则无法预约
     if current_user.credit2 < 100:
-        return '预约点数不足！'
+        # return '预约点数不足！'
+        return jsonify({'error': '预约点数不足！'})
     if request.method == "GET":
         id = request.args.get('seat_id')
         today = datetime.datetime.strptime(request.args.get('t'), '%Y-%m-%d')
@@ -401,7 +400,8 @@ def reserve3():
         for res in result:
             if timejunc(time1,time2,res[3],res[4]):
                 db.close()
-                return '此时间段已有预约！请重新预约！'
+                # return '此时间段已有预约！请重新预约！'
+                return jsonify({'error': '此时间段已有预约！请重新预约！'})
 
         #更新座位信息表，新增一条记录
         sql_query = "INSERT INTO seats (place_id,user_account,start_time,end_time,signed) VALUES (%s, %s, %s, %s, %s)"
@@ -414,7 +414,8 @@ def reserve3():
         cursor.execute(sql_query, values) 
         db.commit() 
         db.close()
-        return '预约成功！'
+        # return '预约成功！'
+        return jsonify({'success': '预约成功！'})
 
 
 #预约信息页，当用户在主页按下“查询预约信息”按钮时，跳转到预约信息页，展示用户的当前预约。
@@ -542,14 +543,29 @@ def adregist():
 
 #管理员主页，当管理员登录成功后，进入主页
 #对应模板文件为'index_ad.html'
-@app.route('/adindex', methods=['GET', 'POST'])
+@app.route('/adindex', defaults={'page': 1})
+@app.route('/adindex/<int:page>', methods=['GET', 'POST'])
 @login_required
-def adindex():
-    #若当前用户不是管理员，则禁止访问
+def adindex(page):
     if not isinstance(current_user, Manager): 
         abort(403)
     if request.method == "GET":
-        return render_template('index_ad.html', username = current_user.name)
+        # 连接数据库
+        db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
+        cursor = db.cursor()
+
+        # 每页显示6条公告
+        items_per_page = 6
+        offset = (page - 1) * items_per_page
+        cursor.execute("SELECT title, content, pubtime FROM announcements ORDER BY pubtime DESC LIMIT %s OFFSET %s", (items_per_page, offset))  # 查询当前页的公告
+        announcements = cursor.fetchall()
+        cursor.execute("SELECT COUNT(*) FROM announcements")    # 查询总公告数
+        total_count = cursor.fetchone()[0]
+        total_pages = (total_count + items_per_page - 1) // items_per_page  # 计算总页数
+        db.close()
+
+        return render_template( 'index_ad.html', 
+                                username=current_user.name, announcements=announcements, total_pages=total_pages, current_page=page)
 
 
 #上架书籍页，当管理员在主页按下“上架书籍”按钮时，进入此页面，管理员在这个页面填写要上架的书籍信息。
@@ -582,24 +598,6 @@ def addbook():
     return render_template('add_book.html')
 
 
-#下架书籍页1，当管理员在主页按下“下架书籍”按钮时，跳转到下架书籍页1，这个页面将向管理员展示书籍列表。
-#对应模板文件为'del_book.html'
-@app.route('/delbook', methods=['GET', 'POST'])
-@login_required
-def delbook():
-    if not isinstance(current_user, Manager): 
-        abort(403)
-    if request.method == "GET":
-        db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
-        cursor = db.cursor()
-        sql_query = "SELECT * FROM books"
-        cursor.execute(sql_query)  
-        result = cursor.fetchall()
-        db.commit() 
-        db.close()
-        return render_template('del_book.html',result=result)
-
-
 # 查询页面，管理员可以在此页面输入书名、作者、类别进行搜索，搜索结果将显示在同一页面，且管理员可以直接下架。
 @app.route('/search_ad', methods=['GET'])
 @login_required
@@ -608,19 +606,20 @@ def search_ad():
         abort(403)  
     if request.method == "GET":
         # 从请求中获取参数
+        book_id = request.args.get('id', '')
         book_name = request.args.get('book', '')
         author = request.args.get('author', '')
         category = request.args.get('class', '')
 
         # 检查是否有输入搜索条件
-        if book_name or author or category:
+        if book_name or author or category or book_id:
             db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
             cursor = db.cursor()
             sql_query = """
                         SELECT * FROM books 
-                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s
+                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s AND book_id = %s
                         """
-            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%')
+            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%', book_id)
             cursor.execute(sql_query, values)
             result = cursor.fetchall()
             db.close()
@@ -808,8 +807,8 @@ def announcement():
         if not title or not content:
             flash('标题和内容都不能为空！')
             return render_template('announcement.html')
-        # 获取当前时间
-        current_date = datetime.date.today()
+        # 获取当前时间（精确到秒）
+        current_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         # 更新数据库
         db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
         cursor = db.cursor()
@@ -855,6 +854,7 @@ def delete_announcement(id):
     db.close()
     flash('公告已删除')
     return redirect(url_for('announcement'))  # 删除后重定向到公告页面
+
 
 
 
