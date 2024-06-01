@@ -1,26 +1,72 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>登录成功页面</title>
-     <link rel="stylesheet" href="../static/css/index_ad.css">
- </head>
- <body>
-     <div class="background-image bg1"></div>
-     <div class="background-image bg2"></div>
- 
-     <div class="header-container">
-         <h1 class="header">Library Management System Homepage</h1>
-     </div>
- 
-     <div class="welcome-text">welcome back, {{username}}!</div>
- 
-     <div class="logout-container">
-         <a href="/logout" class="button small-button" id="btn1">退出登录</a>
-         <a href="#" class="button small-button" id="btn2">注销</a>
-     </div>
- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录成功页面</title>
+    <link rel="stylesheet" href="../static/css/index.css">
+</head>
+<body>
+    <div class="background-image bg1"></div>
+    <div class="background-image bg2"></div>
+
+    <div class="logo-container">
+        <div class="logo-circle">
+            <img src="../static/images/LOGO.png" class="logo-logo">
+            <img src="../static/images/LOGO_JZXM.png" class="logo-text">
+        </div>
+    </div>
+
+    <div class="bt-container">
+        <div class="bt-circle">
+            <div class="logout-container">
+                <a href="/logout" class="button small-button" id="btn1">退出登录</a>
+                <a href="#" class="button small-button" id="btn2">注销</a>
+                <a href="/announcement" class="button" id="btn1">发布公告</a>
+                <a href="/addbook" class="button" id="btn2">上架书籍</a>
+                <a href="/delbook" class="button" id="btn3">下架书籍</a>
+                <a href="/return" class="button" id="btn4">还书</a>
+                <a href="/sign" class="button" id="btn5">签到管理</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="welcome-text">welcome back, {{username}}!</div>
+
+    <div class="announcement-container">
+        <h2>最新公告</h2>
+        
+        <ul class="announcement-list">
+            {% for title, content, pubtime in announcements %}
+                <li class="announcement-item">
+                    <a href="#" class="announcement-link" data-content="{{ content }}" data-title="{{ title }}">{{ title }}</a> - <span class="announcement-time">{{ pubtime }}</span>
+                </li>
+            {% else %}
+                <li class="announcement-item">还没编好公告呢。</li>
+            {% endfor %}
+        </ul>
+        {% if total_pages > 1 %}
+            <div class="pagination">
+                {% for page_num in range(1, total_pages + 1) %}
+                    {% if page_num == current_page %}
+                        <span>{{ page_num }}</span>
+                    {% else %}
+                        <a href="{{ url_for('adindex', page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+
+    <!-- 弹出窗口 -->
+    <div id="announcementModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="announcementClose">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-content"></p>
+        </div>
+    </div>
 
     <!-- 确认注销的模态窗口 -->
     <div id="logoffModal" class="modal">
@@ -32,17 +78,9 @@
         </div>
     </div>
 
-     <div class="button-container">
-         <a href="/announcement" class="button" id="btn1">发布公告</a>
-         <a href="/addbook" class="button" id="btn2">上架书籍</a>
-         <a href="/delbook" class="button" id="btn3">下架书籍</a>
-         <a href="/return" class="button" id="btn4">还书</a>
-         <a href="/sign" class="button" id="btn5">签到管理</a>
-     </div>
- 
-     <script src="../static/js/index_bg.js"></script>
-     <script src="../static/js/button_effect.js"></script>
-     <script src="../static/js/logoff.js"></script>
- </body>
- </html>
- 
+    <script src="../static/js/index_bg.js"></script>
+    <script src="../static/js/button_effect.js"></script>
+    <script src="../static/js/announcement.js"></script>
+    <script src="../static/js/logoff.js"></script>
+</body>
+</html>
