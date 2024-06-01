@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -21,7 +21,6 @@
         {% for announcement_id, title, content, pubtime in announcements %}
             <li>
                 <strong>{{ title }}</strong> - {{ content }} (Posted on {{ pubtime }})
-                <!-- 删除按钮 -->
                 <form action="{{ url_for('delete_announcement', id=announcement_id) }}" method="post">
                     <input type="submit" value="删除" onclick="return confirm('确定要删除这条公告吗？');">
                 </form>
@@ -30,7 +29,6 @@
             <li>一条公告都没发。</li>
         {% endfor %}
     </ul>
-    <!-- Pagination控件 -->
     {% if total_pages > 1 %}
         <div>
             {% for page_num in range(1, total_pages + 1) %}
@@ -43,4 +41,96 @@
         </div>
     {% endif %}
 </body>  
+</html> -->
+
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>发布公告</title>  
+    <link rel="stylesheet" href="../static/css/announcement_ad.css">
+    <link rel="stylesheet" href="../static/css/general.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>  
+<body>  
+    <div class="background-image"></div>
+    
+    <div class="overlay"></div>
+
+    <div class="sidebar">
+        <img src="../static/images/LOGO.png" alt="LOGO" class="logo">
+        <img src="../static/images/LOGO_ABEX.png" alt="LOGO_ABEX" class="logo-abex">
+        <a href="/adindex"><i class="fas fa-home"></i> 主页</a>
+        <a href="/announcement"><i class="fas fa-bullhorn"></i> 发布公告</a>
+        <a href="/addbook"><i class="fas fa-plus-circle"></i> 上架书籍</a>
+        <a href="/search_ad"><i class="fas fa-trash-alt"></i> 下架书籍</a>
+        <a href="/return"><i class="fas fa-undo"></i> 还书</a>
+        <a href="/sign"><i class="fas fa-calendar-check"></i> 签到管理</a>
+    </div>
+
+    <div class="body-content">
+        <div class="form-container">
+            <h2>发布公告</h2>
+            <form action="/announcement" method="post">
+                <label for="title">标题:</label>  
+                <input type="text" id="title" name="title" required><br><br>  
+
+                <label for="content">内容:</label>  
+                <textarea id="content" name="content" required></textarea><br><br>  
+
+                <input type="submit" value="提交">
+            </form>
+        </div>
+
+        <div class="announcement-container">
+            <h2>删除公告</h2>
+            <ul>
+                {% for announcement_id, title, content, pubtime in announcements %}
+                    <li>
+                        <a href="#" class="announcement-title" data-title="{{ title }}" data-content="{{ content }}">{{ title }}</a>
+                        <span class="announcement-date"> - ({{ pubtime }})</span>
+                        <form action="{{ url_for('delete_announcement', id=announcement_id) }}" method="post" class="delete-announcement-form">
+                            <input type="submit" value="删除" class="delete-button">
+                        </form>
+                    </li>
+                {% else %}
+                    <li>一条公告都没发。</li>
+                {% endfor %}
+            </ul>
+            <!-- Pagination控件 -->
+            {% if total_pages > 1 %}
+                <div>
+                    {% for page_num in range(1, total_pages + 1) %}
+                        {% if page_num == current_page %}
+                            <span>{{ page_num }}</span>
+                        {% else %}
+                            <a href="{{ url_for('announcement', page=page_num) }}">{{ page_num }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- 弹窗 -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+
+    <div id="announcementModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="announcementTitle"></h2>
+            <p id="announcementContent"></p>
+        </div>
+    </div>
+
+    <script src="../static/js/announcement_ad.js"></script>
+    <script src="../static/js/announcement_ad_modal.js"></script>
+</body>  
 </html>
+

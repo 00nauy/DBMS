@@ -867,9 +867,9 @@ def delete_announcement(id):
     cursor.execute("DELETE FROM announcements WHERE announcement_id = %s", (id,))
     db.commit()
     db.close()
-    flash('公告已删除')
-    return redirect(url_for('announcement'))  # 删除后重定向到公告页面
-
+    # flash('公告已删除')
+    # return redirect(url_for('announcement'))  # 删除后重定向到公告页面
+    return jsonify({'success': '公告已删除'})
 
 
 

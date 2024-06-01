@@ -1,0 +1,192 @@
+/* general.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+
+
+.form-container {
+    width: 600px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 2;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
+    animation: flow 3s infinite alternate;
+    margin-bottom: 20px;
+}
+
+.form-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-container input[type="text"],
+.form-container textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    width: 100%;
+}
+
+.form-container textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.form-container input[type="submit"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.announcement-container {
+    width: 600px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 2;
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
+    animation: flow 3s infinite alternate;
+    margin-bottom: 20px;
+}
+
+.announcement-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.announcement-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.announcement-container li {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #4c4747;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;  /* 允许换行 */
+}
+
+.announcement-title {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
+}
+
+.announcement-title:hover {
+    text-decoration: underline;
+}
+
+.announcement-date {
+    text-align: right;
+    flex: 1;
+}
+
+.delete-button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f44336;
+    color: white;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+@keyframes flow {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+    word-wrap: break-word; /* Ensure text wraps within the modal */
+}
+
+.announcement-content {
+    white-space: pre-wrap; /* Preserve whitespace and ensure line breaks */
+    text-align: left; /* Align text to the left for readability */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
