@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -15,5 +15,54 @@
     <button type="submit">查找</button>  
 </form>  
  
+</body>  
+</html> -->
+
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>还书</title>  
+    <link rel="stylesheet" href="../static/css/return.css">
+    <link rel="stylesheet" href="../static/css/general.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>  
+<body>  
+    <div class="background-image"></div>
+    
+    <div class="overlay"></div>
+
+    <div class="sidebar">
+        <img src="../static/images/LOGO.png" alt="LOGO" class="logo">
+        <img src="../static/images/LOGO_ABEX.png" alt="LOGO_ABEX" class="logo-abex">
+        <a href="/adindex"><i class="fas fa-home"></i> 主页</a>
+        <a href="/announcement"><i class="fas fa-bullhorn"></i> 发布公告</a>
+        <a href="/addbook"><i class="fas fa-plus-circle"></i> 上架书籍</a>
+        <a href="/search_ad"><i class="fas fa-trash-alt"></i> 下架书籍</a>
+        <a href="/return"><i class="fas fa-undo"></i> 还书</a>
+        <a href="/sign"><i class="fas fa-calendar-check"></i> 签到管理</a>
+    </div>
+
+    <div class="body-content">
+        <div class="form-container">
+            <h2>请输入书号</h2>  
+            <form id="returnForm" action="/return" method="post"> 
+                <label for="idInput">书号:</label>  
+                <input type="text" id="idInput" name="id" required>  
+                <button type="submit">查找</button>  
+            </form>  
+        </div>
+    </div>
+
+    <!-- 弹窗 -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="resultMessage"></p>
+        </div>
+    </div>
+
+    <script src="../static/js/return.js"></script>
 </body>  
 </html>

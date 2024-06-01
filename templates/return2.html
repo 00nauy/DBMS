@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -31,5 +31,68 @@
 </div>  
 <a href="/return2?book_id={{result[0]}}" class="button">确认已还</a> 
   
+</body>  
+</html> -->
+
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>还书</title>  
+    <link rel="stylesheet" href="../static/css/return.css">
+    <link rel="stylesheet" href="../static/css/general.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>  
+<body>  
+    <div class="background-image"></div>
+    
+    <div class="overlay"></div>
+
+    <div class="sidebar">
+        <img src="../static/images/LOGO.png" alt="LOGO" class="logo">
+        <img src="../static/images/LOGO_ABEX.png" alt="LOGO_ABEX" class="logo-abex">
+        <a href="/adindex"><i class="fas fa-home"></i> 主页</a>
+        <a href="/announcement"><i class="fas fa-bullhorn"></i> 发布公告</a>
+        <a href="/addbook"><i class="fas fa-plus-circle"></i> 上架书籍</a>
+        <a href="/search_ad"><i class="fas fa-trash-alt"></i> 下架书籍</a>
+        <a href="/return"><i class="fas fa-undo"></i> 还书</a>
+        <a href="/sign"><i class="fas fa-calendar-check"></i> 签到管理</a>
+    </div>
+
+    <div class="body-content">
+        <div class="form-container">
+            <h2>查询结果</h2>  
+            <div class="borrow-info">  
+                <div>  
+                    <label>书号:</label>  
+                    <span id="book-id">{{result[0]}}</span>  
+                </div>  
+                <div>  
+                    <label>用户号:</label>  
+                    <span id="user-id">{{result[1]}}</span>  
+                </div>  
+                <div>  
+                    <label>开始时间:</label>  
+                    <span id="starttime">{{result[2]}}</span>  
+                </div>  
+                <div>  
+                    <label>归还期限:</label>  
+                    <span id="endddl">{{result[3]}}</span>  
+                </div>  
+            </div>  
+            <a href="/return2?book_id={{result[0]}}" class="button confirm-return">确认已还</a>  
+        </div>
+    </div>
+
+    <!-- 弹窗 -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="resultMessage"></p>
+        </div>
+    </div>
+
+    <script src="../static/js/return2.js"></script>
 </body>  
 </html>
