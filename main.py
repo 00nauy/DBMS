@@ -59,7 +59,7 @@ def regist():
         password = request.form.get('password')
         repassword = request.form.get('repassword')
         if password == repassword:
-            db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+            db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
             cursor = db.cursor()
             hashed_password = generate_password_hash(password)
             sql_query = "INSERT INTO users (user_name, password, credit, credit2) VALUES (%s, %s, %s, %s)"
@@ -87,7 +87,7 @@ def index(page):
         abort(403)
     if request.method == "GET":
         # 连接数据库
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
 
         # 每页显示10条公告
@@ -121,7 +121,7 @@ def logoff():
         user_id = current_user.account
         logout_user()  
         #删除用户信息
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "DELETE FROM users WHERE user_account = %s"
         values = (user_id,)
@@ -133,7 +133,7 @@ def logoff():
         manager_id = current_user.account
         logout_user()  
         #删除管理员信息
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "DELETE FROM manager WHERE account = %s"
         values = (manager_id,)
@@ -164,7 +164,7 @@ def br_info():
     if not isinstance(current_user, User): 
         abort(403)
     if request.method == "GET":
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT book_id, start_time, end_ddl FROM borrow_info WHERE user_account = %s"
         values = (current_user.account,)  
@@ -191,7 +191,7 @@ def borrow2():
     if request.method == "POST":
         id = request.form.get('book_id')   
         numdays = request.form.get('number') 
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         #此处先进行检查，可能会出现已经成功进入选择日期页面，但由于没有及时完成选择，被下架或别人先借走了书的情况，需要排除之。
         sql_query0 = "SELECT * FROM books WHERE book_id = %s"
@@ -228,7 +228,7 @@ def borrow2():
     else:
         #此处先进行检查，可能会出现“借阅”按钮亮起，但书已经被借走或下架的情况，需要排除之。
         book_id = request.args.get('book_id')
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT * FROM books WHERE book_id = %s"
         values = (book_id,)
@@ -273,7 +273,7 @@ def reserve():
             return '结束时间须至少比开始时间晚一小时！'
         
         ok_list = [i+1 for i in range(100)]
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT * FROM seats"
         cursor.execute(sql_query)  
@@ -297,7 +297,7 @@ def reserve2():
         abort(403)
     if request.method == "GET":
         id = request.args.get('seat_id') 
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT * FROM seats WHERE place_id = %s AND DATE(start_time) = %s"
         values = (id, datetime.date.today())
@@ -331,7 +331,7 @@ def reserve3():
         print("hahah!",time1, time2)
 
         #可能存在座位已经被预约的情况，需要排除之
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT * FROM seats WHERE place_id = %s AND DATE(start_time) = %s"
         values = (id, datetime.date.today())
@@ -364,7 +364,7 @@ def rs_info():
     if not isinstance(current_user, User): 
         abort(403)
     if request.method == "GET":
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT order_id, place_id, start_time, end_time, signed FROM seats WHERE user_account = %s"
         values = (current_user.account,)  
@@ -405,7 +405,7 @@ def seatend():
         abort(403)
     #判断预约是否已经结束
     orderid = request.args.get('id')
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
     cursor = db.cursor()
     sql_query = "SELECT * FROM seats WHERE order_id = %s"
     values = (orderid,)
@@ -461,7 +461,7 @@ def adregist():
         password = request.form.get('password')
         repassword = request.form.get('repassword')
         if password == repassword:
-            db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+            db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
             cursor = db.cursor()
             hashed_password = generate_password_hash(password)
             sql_query = "INSERT INTO manager (name, password) VALUES (%s, %s)"
@@ -511,7 +511,7 @@ def addbook():
         values = (book_name,class_category,author,publisher,pubtime,current_date,0)
 
         #更新书籍信息表，新增一条记录
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "INSERT INTO books (book_name,class,author,publisher,pubtime,entertime,borrowed) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         cursor.execute(sql_query, values)
@@ -529,7 +529,7 @@ def delbook():
     if not isinstance(current_user, Manager): 
         abort(403)
     if request.method == "GET":
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT * FROM books"
         cursor.execute(sql_query)  
@@ -547,7 +547,7 @@ def delbook2():
         abort(403)
     #此处先进行检查，可能会出现“下架书籍”按钮亮起，但书已下架或已被借走的情况，需要排除之。
     book_id = request.args.get('book_id')
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
     cursor = db.cursor()
     sql_query = "SELECT * FROM books WHERE book_id = %s"
     values = (book_id,)
@@ -581,7 +581,7 @@ def returnbook():
         if not book_id.isdigit(): 
             return '请输入一个整数！'
         #在借阅信息表中根据书号查询借阅记录
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT * FROM borrow_info WHERE book_id = %s"
         values = (book_id,)
@@ -602,7 +602,7 @@ def returnbook2():
     if not isinstance(current_user, Manager): 
         abort(403)
     book_id = request.args.get('book_id')
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
     cursor = db.cursor()
     #可能存在“确认已还”按钮亮起，但书其实已经归还的情况，应该排除之
     #注：此处不完善！无法处理书已经被归还然后再被借走的特殊情况
@@ -653,7 +653,7 @@ def seatsign():
         if not user_id.isdigit(): 
             return '请输入一个整数！'
         #在座位信息表中根据用户号查询预约记录
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         sql_query = "SELECT * FROM seats WHERE user_account = %s"
         values = (user_id,)
@@ -674,7 +674,7 @@ def seatsign2():
     if not isinstance(current_user, Manager): 
         abort(403)
     id = request.args.get('id')
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
     cursor = db.cursor()
     #可能存在“确认已到”按钮亮起，但其实已经签到的情况，应该排除之
     sql_query = "SELECT * FROM seats WHERE order_id = %s"
@@ -701,7 +701,7 @@ def seatsign2():
 #座位预约自动处理：每分钟系统将自动对数据库进行扫描，对“预约自然结束”和“因未签到导致预约强制结束”两种情况进行相应操作。
 def scan_database():  
     print("自动扫描已启动！")
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
     cursor = db.cursor()
     while True:  
         # 计算下一分钟的开始时间  
@@ -755,7 +755,7 @@ def search():
 
         # 检查是否有输入搜索条件
         if book_name or author or category:
-            db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+            db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
             cursor = db.cursor()
             sql_query = """
                         SELECT * FROM books 
@@ -793,7 +793,7 @@ def announcement():
         # 获取当前时间
         current_date = datetime.date.today()
         # 更新数据库
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()
         cursor.execute("SELECT MAX(announcement_id) FROM announcements")
         new_id = cursor.fetchone()[0]
@@ -810,7 +810,7 @@ def announcement():
     items_per_page = 20
     offset = (page - 1) * items_per_page
 
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
     cursor = db.cursor()
     cursor.execute("SELECT announcement_id, title, content, pubtime FROM announcements ORDER BY pubtime DESC LIMIT %s OFFSET %s", (items_per_page, offset))
     announcements = cursor.fetchall()
@@ -830,7 +830,7 @@ def announcement():
 def delete_announcement(id):
     if not isinstance(current_user, Manager): 
         abort(403)  # 只有验证过的用户可以删除公告
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
     cursor = db.cursor()
     cursor.execute("DELETE FROM announcements WHERE announcement_id = %s", (id,))
     db.commit()

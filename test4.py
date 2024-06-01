@@ -5,7 +5,7 @@ from flask_login import UserMixin, login_user, login_required, LoginManager, cur
 from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # #上架书籍
     # db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
     # cursor = db.cursor()
@@ -16,13 +16,20 @@ if __name__ == '__main__':
     # db.close()
 
 if __name__ == '__main__':
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
     cursor = db.cursor()
     sql_query = "INSERT INTO books (book_name,class,author,publisher,pubtime,entertime,borrowed) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-    values = ("机器学习001","计算机","作者001","出版社001","2017-05-01","2023-05-01",0) 
+    values = ("机器学习001","计算机","高新民，高原编著黄正军主编左江华，马启昕副主编","出版社001","2017-05-01","2023-05-01",0) 
     cursor.execute(sql_query, values)  
     db.commit()
     db.close()
+
+    # db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    # cursor = db.cursor()
+    # sql_query = "DELETE FROM books WHERE book_id > 1"
+    # cursor.execute(sql_query)  
+    # db.commit()
+    # db.close()
 
     # db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
     # cursor = db.cursor()
@@ -32,15 +39,15 @@ if __name__ == '__main__':
     # db.commit() 
     # db.close()
 
-    date_time_str1 = "2024-05-30 9:30"
-    date_time_obj1 = datetime.datetime.strptime(date_time_str1, "%Y-%m-%d %H:%M")
-    date_time_str2 = "2024-05-30 11:40"
-    date_time_obj2 = datetime.datetime.strptime(date_time_str2, "%Y-%m-%d %H:%M")
-    db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
-    cursor = db.cursor()
-    sql_query = "INSERT INTO seats (place_id,user_account,start_time,end_time,signed) VALUES (%s, %s, %s, %s, %s)"
-    values = (10,132,date_time_obj1,date_time_obj2,1) 
-    cursor.execute(sql_query, values)  
-    db.commit()
-    db.close()
+    # date_time_str1 = "2024-05-30 9:30"
+    # date_time_obj1 = datetime.datetime.strptime(date_time_str1, "%Y-%m-%d %H:%M")
+    # date_time_str2 = "2024-05-30 11:40"
+    # date_time_obj2 = datetime.datetime.strptime(date_time_str2, "%Y-%m-%d %H:%M")
+    # db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+    # cursor = db.cursor()
+    # sql_query = "INSERT INTO seats (place_id,user_account,start_time,end_time,signed) VALUES (%s, %s, %s, %s, %s)"
+    # values = (10,132,date_time_obj1,date_time_obj2,1) 
+    # cursor.execute(sql_query, values)  
+    # db.commit()
+    # db.close()
     print("完成！")

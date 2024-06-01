@@ -13,7 +13,7 @@ class Manager(UserMixin):
   
     @staticmethod  
     def get_by_account(account):  
-        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy00", password="YXEh8qSbjeAFwVYO", database="library_system24")
+        db = pymysql.connect(host="mysql.sqlpub.com", port=3306, user="nauy01", password="OuarXBbiUOBxLRe1", database="library_system25")
         cursor = db.cursor()  
         sql_query = "SELECT name, password FROM manager WHERE account = %s"  
         values = (account,)  
