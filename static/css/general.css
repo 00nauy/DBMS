@@ -30,7 +30,7 @@
 }
 
 .logo {
-    width: 180px;  /* 控制LOGO的宽度 */
+    width: 100px;  /* 控制LOGO的宽度 */
     height: auto;  /* 设置高度为自动，保持图片的纵横比 */
     display: block;  /* 使LOGO在其容器中单独占一行 */
     margin: 0 auto;  /* 将LOGO居中显示在侧边栏 */
