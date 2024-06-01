@@ -25,6 +25,8 @@ body {
     opacity: 1;
 }
 
+
+/* 左边栏 */
 .logo-container {
     position: fixed;
     height: 100vh;
@@ -63,26 +65,7 @@ body {
 }
 
 
-.bt-container {
-    position: fixed;
-    height: 100vh;
-    width: 20%;
-    right: 0;
-    top: 0;
-}
-
-.bt-circle {
-    width: 300px;
-    height: 110%;
-    background-color: #1A292F;
-    border-radius: 100% 0 0 100%;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
-}
-
+/* 中间公告 */
 .welcome-text {
     color: #333;
     font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
@@ -102,40 +85,11 @@ body {
     top: 150px
 }
 
-@keyframes flow {
-    0% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
-.logout-container {
-    position: absolute;
-    top: 60px;
-    right: 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 2;
-}
-
-.button.small-button {
-    width: 100px;
-    height: 80px;
-    font-size: 18px;
-    line-height: 80px;
-}
-
 .announcement-container {
     margin-top: 200px;
     padding: 20px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(245, 245, 220, 0.7);
     z-index: 2;
     text-align: left;
     width: 80%;
@@ -147,7 +101,7 @@ body {
     margin-left: auto; /* 居中对齐 */
     margin-right: auto; /* 居中对齐 */
     position: relative;
-    /* animation: flow 3s infinite alternate; */
+    border: 5px solid #1A292F; /* 添加深青色边框 */
 }
 
 .announcement-container h2 {
@@ -192,6 +146,57 @@ body {
     color: #666;
     margin-left: 10px; /* 给日期和链接之间添加一些间距 */
     white-space: nowrap; /* 防止日期换行 */
+}
+
+
+/* 右边栏 */
+.bt-container {
+    position: fixed;
+    height: 100vh;
+    width: 20%;
+    right: 0;
+    top: 0;
+}
+
+.bt-circle {
+    width: 300px;
+    height: 110%;
+    background-color: #1A292F;
+    border-radius: 100% 0 0 100%;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
+}
+
+@keyframes flow {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.logout-container {
+    position: absolute;
+    top: 60px;
+    right: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 2;
+}
+
+.button.small-button {
+    width: 100px;
+    height: 80px;
+    font-size: 18px;
+    line-height: 80px;
 }
 
 .pagination {

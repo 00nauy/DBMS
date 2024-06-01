@@ -1,40 +1,10 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>登录页面</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/login.css"/>
-    <script src="../static/js/register.js" type="text/javascript"></script>
- 
-</head>
-<body>
- 
-<div class="login-box">
-    <h2>入口</h2>
-    <form action="/login" method="post">
-        <div class="login-field">
-            <span style="color: aqua; size: 12px">用户号</span>
-            <input type="text" name="account" required=""/>
-        </div>
-        <div class="login-field">
-            <spqn style="color: aqua; size: 12px">密码</spqn>
-            <input type="password" name="password" required=""/>
-        </div>
-        <input type="submit" value="点击进入" id="myloginlabel">
-        <p style="color: #101113">没有账号？<a href="./register" style="color: rgba(22,180,166,0.58)" onclick="topggleForm();">注册</a>
-	<a href="./adlogin" style="color: rgba(22,180,166,0.58)" onclick="topggleForm();">以管理员身份登录</a>
-</p>
-    </form>
-</div>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>登录页面</title>
     <link rel="stylesheet" type="text/css" href="../static/css/login.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/general_login.css"/>
     <script src="../static/js/register.js" type="text/javascript"></script>
     <script src="../static/js/login_bg.js"></script> <!-- 引用背景更换的JS -->
 </head>
@@ -42,8 +12,11 @@
     <div class="background-image bg1"></div>
     <div class="background-image bg2"></div>
 
-    <div class="header-container">
-        <h1 class="header">Library Management System Homepage</h1>
+    <div class="logo-container">
+        <div class="logo-circle">
+            <img src="../static/images/LOGO.png" class="logo-logo">
+            <img src="../static/images/LOGO_JZXM.png" class="logo-text">
+        </div>
     </div>
 
     <div class="login-box-container">
@@ -58,7 +31,7 @@
                 <span style="color: rgb(0, 0, 0); font-size: 12px">密码</span>
                 <input type="password" name="password" required=""/>
             </div>
-            <input type="submit" value="点击进入" id="myloginlabel">
+            <input type="submit" value="点击进入" id="submit-button">
             <p style="color: #101113">没有账号？<a href="./register" style="color: rgba(22,180,166,0.58)" onclick="toggleForm();">注册</a>
             <a href="./adlogin" style="color: rgba(22,180,166,0.58)" onclick="toggleForm();">以管理员身份登录</a>
             </p>

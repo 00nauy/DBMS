@@ -187,7 +187,39 @@ def br_info():
         return render_template('borrow_info.html', info1=info1,info2=info2,info3=info3)
 
 
-#借书页2，当用户在借书页1按下“借阅”按钮时，跳转到借书页2，用户在这个页面设置借阅时长。
+# 查询页面，用户可以在此页面输入书名、作者、类别进行搜索，搜索结果将显示在同一页面，且用户可以直接借阅。
+@app.route('/search', methods=['GET'])
+@login_required
+def search():
+    if request.method == "GET":
+        # 从请求中获取参数
+        book_name = request.args.get('book', '')
+        author = request.args.get('author', '')
+        category = request.args.get('class', '')
+
+        # 检查是否有输入搜索条件
+        if book_name or author or category:
+            db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
+            cursor = db.cursor()
+            sql_query = """
+                        SELECT * FROM books 
+                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s
+                        """
+            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%')
+            cursor.execute(sql_query, values)
+            result = cursor.fetchall()
+            db.close()
+            # 传递结果到模板，包括一个标识符表示有搜索执行
+            return render_template('search.html', result=result, searched=True)
+        else:
+            # 如果没有任何搜索条件，设置result为空并传递一个标识符表示未执行搜索
+            return render_template('search.html', result=None, searched=False)
+        
+    # 如果不是GET请求，返回空搜索页面
+    return render_template('search.html')
+
+
+#借书页2，当用户在查询页面按下“借阅”按钮时，跳转到借书页2，用户在这个页面设置借阅时长。
 #对应模板文件为'borrow2.html'
 @app.route('/borrow2', methods=['GET', 'POST'])
 @login_required
@@ -566,22 +598,39 @@ def addbook():
     return render_template('add_book.html')
 
 
-#下架书籍页1，当管理员在主页按下“下架书籍”按钮时，跳转到下架书籍页1，这个页面将向管理员展示书籍列表。
-#对应模板文件为'del_book.html'
-@app.route('/delbook', methods=['GET', 'POST'])
+# 查询页面，管理员可以在此页面输入书名、作者、类别进行搜索，搜索结果将显示在同一页面，且管理员可以直接下架。
+@app.route('/search_ad', methods=['GET'])
 @login_required
-def delbook():
+def search_ad():
     if not isinstance(current_user, Manager): 
-        abort(403)
+        abort(403)  
     if request.method == "GET":
-        db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
-        cursor = db.cursor()
-        sql_query = "SELECT * FROM books"
-        cursor.execute(sql_query)  
-        result = cursor.fetchall()
-        db.commit() 
-        db.close()
-        return render_template('del_book.html',result=result)
+        # 从请求中获取参数
+        book_id = request.args.get('id', '')
+        book_name = request.args.get('book', '')
+        author = request.args.get('author', '')
+        category = request.args.get('class', '')
+
+        # 检查是否有输入搜索条件
+        if book_name or author or category or book_id:
+            db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
+            cursor = db.cursor()
+            sql_query = """
+                        SELECT * FROM books 
+                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s AND book_id = %s
+                        """
+            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%', book_id)
+            cursor.execute(sql_query, values)
+            result = cursor.fetchall()
+            db.close()
+            # 传递结果到模板，包括一个标识符表示有搜索执行
+            return render_template('search_ad.html', result=result, searched=True)
+        else:
+            # 如果没有任何搜索条件，设置result为空并传递一个标识符表示未执行搜索
+            return render_template('search_ad.html', result=None, searched=False)
+        
+    # 如果不是GET请求，返回空搜索页面
+    return render_template('search_ad.html')
 
 
 #当管理员在下架书籍页1按下“下架书籍”按钮时，进行下架操作并返回操作结果信息。
@@ -743,83 +792,6 @@ def seatsign2():
     return '已签到！'
 
 
-#座位预约自动处理：每分钟系统将自动对数据库进行扫描，对“预约自然结束”和“因未签到导致预约强制结束”两种情况进行相应操作。
-def scan_database():  
-    print("自动扫描已启动！")
-    db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
-    cursor = db.cursor()
-    while True:  
-        # 计算下一分钟的开始时间  
-        now = datetime.datetime.now()  
-        next_minute = now + datetime.timedelta(minutes=1)  
-        next_minute = next_minute.replace(second=0, microsecond=0)  
-  
-        # 等待到下一分钟的开始  
-        wait_time = (next_minute - now).total_seconds()  
-        time.sleep(wait_time)  
-        print(f"Scanning database at {datetime.datetime.now()}")
-
-        #查找所有开始时间后30min内未签到的座位预约，强制结束预约，用户不会恢复预约点数
-        sql_query = "DELETE FROM seats WHERE start_time < %s AND signed = 0"
-        values = (datetime.datetime.now()-datetime.timedelta(minutes=30),)
-        cursor.execute(sql_query, values) 
-
-        #查找所有满足自然结束条件的座位预约，为用户恢复100预约点数并结束预约
-        sql_query = "SELECT user_account FROM seats WHERE end_time < %s"
-        values = (datetime.datetime.now(),)
-        cursor.execute(sql_query, values) 
-        result = cursor.fetchall()
-        for i in result:
-            #修改用户信息表，增加100预约点数
-            sql_query = "UPDATE users SET credit2 = credit2+100 WHERE user_account = %s"
-            values = (i[0],)
-            cursor.execute(sql_query, values)
-
-        #修改座位信息表，删除相应记录
-        sql_query = "DELETE FROM seats WHERE end_time < %s"
-        values = (datetime.datetime.now(),)
-        cursor.execute(sql_query, values) 
-        db.commit()
-
-
-#座位预约自动处理
-def start_database_scanner():  
-    thread = threading.Thread(target=scan_database)  
-    thread.start()
-
-
-# 查询页面，用户可以在此页面输入书名、作者、类别进行搜索，搜索结果将显示在同一页面，且用户可以直接借阅。
-@app.route('/search', methods=['GET'])
-@login_required
-def search():
-    if request.method == "GET":
-        # 从请求中获取参数
-        book_name = request.args.get('book', '')
-        author = request.args.get('author', '')
-        category = request.args.get('class', '')
-
-        # 检查是否有输入搜索条件
-        if book_name or author or category:
-            db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
-            cursor = db.cursor()
-            sql_query = """
-                        SELECT * FROM books 
-                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s
-                        """
-            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%')
-            cursor.execute(sql_query, values)
-            result = cursor.fetchall()
-            db.close()
-            # 传递结果到模板，包括一个标识符表示有搜索执行
-            return render_template('search.html', result=result, searched=True)
-        else:
-            # 如果没有任何搜索条件，设置result为空并传递一个标识符表示未执行搜索
-            return render_template('search.html', result=None, searched=False)
-        
-    # 如果不是GET请求，返回空搜索页面
-    return render_template('search.html')
-
-
 # 公告页面，管理员可以在此页面发布公告与删除公告。
 @app.route('/announcement', methods=['GET', 'POST'])
 @login_required
@@ -883,6 +855,52 @@ def delete_announcement(id):
     flash('公告已删除')
     return redirect(url_for('announcement'))  # 删除后重定向到公告页面
 
+
+
+
+#座位预约自动处理：每分钟系统将自动对数据库进行扫描，对“预约自然结束”和“因未签到导致预约强制结束”两种情况进行相应操作。
+def scan_database():  
+    print("自动扫描已启动！")
+    db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
+    cursor = db.cursor()
+    while True:  
+        # 计算下一分钟的开始时间  
+        now = datetime.datetime.now()  
+        next_minute = now + datetime.timedelta(minutes=1)  
+        next_minute = next_minute.replace(second=0, microsecond=0)  
+  
+        # 等待到下一分钟的开始  
+        wait_time = (next_minute - now).total_seconds()  
+        time.sleep(wait_time)  
+        print(f"Scanning database at {datetime.datetime.now()}")
+
+        #查找所有开始时间后30min内未签到的座位预约，强制结束预约，用户不会恢复预约点数
+        sql_query = "DELETE FROM seats WHERE start_time < %s AND signed = 0"
+        values = (datetime.datetime.now()-datetime.timedelta(minutes=30),)
+        cursor.execute(sql_query, values) 
+
+        #查找所有满足自然结束条件的座位预约，为用户恢复100预约点数并结束预约
+        sql_query = "SELECT user_account FROM seats WHERE end_time < %s"
+        values = (datetime.datetime.now(),)
+        cursor.execute(sql_query, values) 
+        result = cursor.fetchall()
+        for i in result:
+            #修改用户信息表，增加100预约点数
+            sql_query = "UPDATE users SET credit2 = credit2+100 WHERE user_account = %s"
+            values = (i[0],)
+            cursor.execute(sql_query, values)
+
+        #修改座位信息表，删除相应记录
+        sql_query = "DELETE FROM seats WHERE end_time < %s"
+        values = (datetime.datetime.now(),)
+        cursor.execute(sql_query, values) 
+        db.commit()
+
+
+#座位预约自动处理
+def start_database_scanner():  
+    thread = threading.Thread(target=scan_database)  
+    thread.start()
 
 
 if __name__ == '__main__':
