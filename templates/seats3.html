@@ -59,7 +59,7 @@
                             <input type="hidden" name="seat_id" value="{{ seat }}">  
                             <button type="submit" class="button">查看预约情况</button>  
                         </form>
-                        <form action="/reserve3" method="get" class="seat-action-form">  
+                        <form action="/reserve3" method="get" class="reserve-form seat-action-form">  
                             <input type="hidden" name="seat_id" value="{{ seat }}">
                             <input type="hidden" name="t" value="{{ t }}">
                             <input type="hidden" name="t11" value="{{ t11 }}">  
@@ -90,6 +90,7 @@
 
 
     
+
     <div id="errorModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -99,7 +100,9 @@
     </div>
 
     <script src="../static/js/populate_selects.js" type="text/javascript"></script>
-    <script src="../static/js/seat_error.js"></script>
+    <!-- <script src="../static/js/seat_error.js"></script> -->
+    <script src="../static/js/seat3_main.js"></script>
+    <script src="../static/js/seat3_modal.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const t11 = '{{ t11 }}'.padStart(2, '0');

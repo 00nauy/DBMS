@@ -22,31 +22,52 @@
         <a href="/reserve_info">查询预约信息</a>
     </div>
 
-    <div class="body-content">   
-        <form action="{{ url_for('search') }}" method="get">
-            <input type="text" name="book" placeholder="搜索书名">
-            <input type="text" name="author" placeholder="搜索作者名">
-            <input type="text" name="class" placeholder="搜索关键词">
-            <input type="submit" value="Search">
-        </form>
+    <div class="body-content">
+        <div class="search-container">   
+            <h2>图书借阅</h2>
+            <form action="{{ url_for('search') }}" method="get">
+                <input type="text" name="book" placeholder="搜索书名">
+                <input type="text" name="author" placeholder="搜索作者名">
+                <input type="text" name="class" placeholder="搜索关键词">
+                <input type="submit" value="搜索">
+            </form>
+        </div>
         <div class="book-info"> 
             {% if searched %}
             {% if result %}
-                <ul id="book-list">  
-                    {% for item in result %}
-                        <li>
-                            书号：{{ item[0] }} 书名：{{ item[1] }} 类别：{{ item[2] }} 作者：{{ item[3] }} 出版社：{{ item[4] }} 出版时间：{{ item[5] }} 入库时间：{{ item[6] }}
-                            <form action="/borrow2" method="get" class="book-action-form">  
-                                <input type="hidden" name="book_id" value="{{ item[0] }}">  
-                                {% if item[7] == 0 %}  
-                                    <button type="submit" class="button">借阅</button>  
-                                {% else %}  
-                                    <span class="button disabled">已被借出</span>  
-                                {% endif %}  
-                            </form>
-                        </li>
-                    {% endfor %}
-                </ul>
+                <table id="book-list">
+                    <thead>
+                        <tr>
+                            <th>书号</th>
+                            <th>书名</th>
+                            <th>类别</th>
+                            <th>作者</th>
+                            <th>出版社</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in result %}
+                        <tr>
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1] }}</td>
+                            <td>{{ item[2] }}</td>
+                            <td>{{ item[3] }}</td>
+                            <td>{{ item[4] }}</td>
+                            <td>
+                                <form action="/borrow2" method="get" class="book-action-form">  
+                                    <input type="hidden" name="book_id" value="{{ item[0] }}">  
+                                    {% if item[7] == 0 %}  
+                                        <button type="submit" class="button">借阅</button>  
+                                    {% else %}  
+                                        <span class="button disabled">已被借出</span>  
+                                    {% endif %}  
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             {% else %}
                 <p>未找到符合条件的书籍。</p>
             {% endif %}

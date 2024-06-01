@@ -345,7 +345,8 @@ def reserve3():
         abort(403)
     #此处检查预约点数是否不足100，若不足100则无法预约
     if current_user.credit2 < 100:
-        return '预约点数不足！'
+        # return '预约点数不足！'
+        return jsonify({'error': '预约点数不足！'})
     if request.method == "GET":
         id = request.args.get('seat_id')
         today = datetime.datetime.strptime(request.args.get('t'), '%Y-%m-%d')
@@ -367,7 +368,8 @@ def reserve3():
         for res in result:
             if timejunc(time1,time2,res[3],res[4]):
                 db.close()
-                return '此时间段已有预约！请重新预约！'
+                # return '此时间段已有预约！请重新预约！'
+                return jsonify({'error': '此时间段已有预约！请重新预约！'})
 
         #更新座位信息表，新增一条记录
         sql_query = "INSERT INTO seats (place_id,user_account,start_time,end_time,signed) VALUES (%s, %s, %s, %s, %s)"
@@ -380,7 +382,8 @@ def reserve3():
         cursor.execute(sql_query, values) 
         db.commit() 
         db.close()
-        return '预约成功！'
+        # return '预约成功！'
+        return jsonify({'success': '预约成功！'})
 
 
 #预约信息页，当用户在主页按下“查询预约信息”按钮时，跳转到预约信息页，展示用户的当前预约。
