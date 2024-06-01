@@ -35,3 +35,12 @@
     left: 45%;
     transform: translate(-50%, -50%);
 }
+
+/* 登录框中字体 */
+.admin-login {
+    color: #8B4513; /* 管理员链接的常规棕色 */
+}
+
+.admin-login:hover {
+    color: #5A2D0C; /* 管理员链接悬停时较深的棕色 */
+}
