@@ -62,14 +62,14 @@ body {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #1A292F;
+    color: #F5F5DC;
     font-size: 16px;
     cursor: pointer;
 }
 
 .search-container input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #34515E;
 }
 
 .book-info {
@@ -100,23 +100,23 @@ body {
 }
 
 .book-info th, .book-info td {
-    border: 1px solid #ddd;
+    border: 1px solid #F5F5DC;
     padding: 8px;
     text-align: left;
 }
 
 .book-info th {
-    background-color: #f2f2f2;
+    background-color: #F5F5DC;
     color: black;
 }
 
 .book-info tr:hover {
-    background-color: #f1f1f1;
+    background-color: #E0E0D1;
 }
 
 .book-info .button {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #1A292F;
+    color: #F5F5DC;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -124,7 +124,11 @@ body {
 }
 
 .book-info .button.disabled {
-    background-color: #ccc;
+    background-color:  #839192;
+    color: #F5F5DC;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
     cursor: not-allowed;
 }
 

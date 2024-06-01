@@ -33,8 +33,10 @@
                 <input type="password" name="password" required=""/>
             </div>
             <input type="submit" value="点击进入" id="submit-button">
-            <p style="color: #101113">没有账号？<a href="./register" style="color: rgba(22,180,166,0.58)" onclick="toggleForm();">注册</a>
-            <a href="./adlogin" style="color: rgba(22,180,166,0.58)" onclick="toggleForm();">以管理员身份登录</a>
+            <p style="color: #1A292F">
+                没有账号？
+                <a href="./register" class="link admin-login" onclick="toggleForm();"><strong>注册</strong></a>
+                <a href="./adlogin" class="link admin-login" onclick="toggleForm();"><strong>以管理员身份登录</strong></a>
             </p>
         </form>
     </div>
