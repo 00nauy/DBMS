@@ -724,7 +724,8 @@ def returnbook2():
     result = cursor.fetchone()
     if result is None:
         db.close()
-        return '书已经被归还了！'
+        # return '书已经被归还了！'
+        return jsonify({'message': '书已经被归还了！'})
 
     #更新书籍信息表，将对应书籍设置为可借阅状态
     sql_query1 = "UPDATE books SET borrowed = 0 WHERE book_id = %s"
@@ -749,7 +750,8 @@ def returnbook2():
     cursor.execute(sql_query3, values3) 
     db.commit()
     db.close()
-    return '已确认还书！'
+    # return '已确认还书！'
+    return jsonify({'message': '已确认还书！'})
 
 
 #签到页面，当管理员在主页按下“签到管理”按钮时，跳转到此页面，管理员需要在此页面输入用户号，若存在对应记录，则跳转到签到页面2。

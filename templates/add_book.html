@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -25,5 +25,68 @@
   
         <input type="submit" value="提交">  
     </form>  
+</body>   
+</html> -->
+
+
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>书籍信息录入</title>  
+    <link rel="stylesheet" href="../static/css/general.css">
+    <link rel="stylesheet" href="../static/css/add_book.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>  
+<body>  
+    <div class="background-image"></div>
+    
+    <div class="overlay"></div>
+
+    <div class="sidebar">
+        <img src="../static/images/LOGO.png" alt="LOGO" class="logo">
+        <img src="../static/images/LOGO_ABEX.png" alt="LOGO_ABEX" class="logo-abex">
+        <a href="/adindex"><i class="fas fa-home"></i> 主页</a>
+        <a href="/announcement"><i class="fas fa-bullhorn"></i> 发布公告</a>
+        <a href="/addbook"><i class="fas fa-plus-circle"></i> 上架书籍</a>
+        <a href="/search_ad"><i class="fas fa-trash-alt"></i> 下架书籍</a>
+        <a href="/return"><i class="fas fa-undo"></i> 还书</a>
+        <a href="/sign"><i class="fas fa-calendar-check"></i> 签到管理</a>
+    </div>
+
+    <div class="body-content">
+        <div class="form-container">
+            <h2>书籍信息录入</h2>  
+            <form id="addBookForm" action="/addbook" method="post">  
+                <label for="book_name">书名:</label>  
+                <input type="text" id="book_name" name="book_name" required><br><br>  
+
+                <label for="class">类别:</label>  
+                <input type="text" id="class" name="class" required><br><br>  
+
+                <label for="author">作者:</label>  
+                <input type="text" id="author" name="author" required><br><br>  
+
+                <label for="publisher">出版社:</label>  
+                <input type="text" id="publisher" name="publisher" required><br><br>  
+
+                <label for="pubtime">出版日期:</label>  
+                <input type="date" id="pubtime" name="pubtime" required><br><br>  
+
+                <input type="submit" value="提交">  
+            </form>  
+        </div>
+    </div>
+
+    <!-- 弹窗 -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="successMessage"></p>
+        </div>
+    </div>
+
+    <script src="../static/js/add_book.js"></script>
 </body>  
 </html>
