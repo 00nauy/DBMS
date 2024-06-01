@@ -1,5 +1,3 @@
-// return2.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('resultModal');
     const modalContent = document.querySelector('.modal-content');
@@ -21,15 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const confirmButton = document.querySelector('.confirm-sign');
-    confirmButton.addEventListener('click', function(event) {
-        event.preventDefault(); // 阻止默认链接行为
+    const confirmButtons = document.querySelectorAll('.confirm-sign');
+    confirmButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // 阻止默认链接行为
 
-        fetch(this.href)
-        .then(response => response.json())
-        .then(data => {
-            showResultModal(data.message);
-        })
-        .catch(error => console.error('Error:', error));
+            fetch(this.href)
+            .then(response => response.json())
+            .then(data => {
+                showResultModal(data.message);
+            })
+            .catch(error => console.error('Error:', error));
+        });
     });
 });
+
