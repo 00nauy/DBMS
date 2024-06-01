@@ -43,7 +43,7 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .logo-logo {
@@ -167,7 +167,7 @@ body {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影 */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5);
 }
 
 @keyframes flow {

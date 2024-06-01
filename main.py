@@ -471,6 +471,10 @@ def seatend():
         db.close()
         return '预约已经结束了，无需再结束！'
 
+    #判断预约是否处于可结束时间段
+    if (result[5] == 0) and (result[3] - datetime.datetime.now() < datetime.timedelta(minutes=10)):
+        return '不处于可提前结束时间段！'
+
     #修改用户信息表，增加100预约点数
     sql_query = "UPDATE users SET credit2 = credit2+100 WHERE user_account = %s"
     values = (current_user.account,)
@@ -508,6 +512,8 @@ def adlogin():
     return render_template('login_ad.html')  
 
 
+manager_word_list = ['wzr','zyz','wjx']
+
 #管理员注册页面
 #对应模板文件为'regist_ad.html'
 @app.route('/adregister', methods=['GET', 'POST'])
@@ -516,6 +522,9 @@ def adregist():
         name = request.form.get('name')
         password = request.form.get('password')
         repassword = request.form.get('repassword')
+        manager_word = request.form.get('manager_word')
+        if manager_word not in manager_word_list:
+            return '邀请码无效！'
         if password == repassword:
             db = pymysql.connect(host="mysql.sqlpub.com",port=3306,user="nauy01", password="OuarXBbiUOBxLRe1", database= 'library_system25')
             cursor = db.cursor()
