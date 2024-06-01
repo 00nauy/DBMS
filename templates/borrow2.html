@@ -1,4 +1,4 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
 <html lang="en">  
 <head>  
     <meta charset="UTF-8">  
@@ -23,5 +23,55 @@
         </select>  
         <input type="submit" value="提交">  
     </form>  
+</body>  
+</html> -->
+
+
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>借阅信息确定</title>
+    <link rel="stylesheet" href="../static/css/general.css">
+    <link rel="stylesheet" href="../static/css/search.css">
+    <link rel="stylesheet" href="../static/css/borrow2.css">
+</head>  
+<body>  
+    <div class="background-image"></div>
+    <div class="overlay"></div>
+
+    <div class="sidebar">
+        <img src="../static/images/LOGO.png" alt="LOGO" class="logo">
+        <a href="/index">主页</a>
+        <a href="/personal_info">查询个人信息</a>
+        <a href="/borrow_info">查询借阅信息</a>
+        <a href="/search">借书</a>
+        <a href="/reserve">预约座位</a>
+        <a href="/reserve_info">查询预约信息</a>
+    </div>
+
+    <div class="body-content">
+        <div class="form-container">
+            <h2>请选择借阅的天数</h2>
+            <form id="numberForm" action="/borrow2" method="post">
+                <input type="hidden" name="book_id" value="{{bookid}}">
+                <label for="number">可借阅1天到30天:</label>  
+                <select id="number" name="number" required></select>
+                <input type="submit" value="提交">
+            </form>
+        </div>
+    </div>
+
+    <!-- 弹窗 -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="errorMessage"></p>
+        </div>
+    </div>
+
+    <script src="../static/js/borrow_main.js"></script>
+    <script src="../static/js/borrow_modal.js"></script>
 </body>  
 </html>

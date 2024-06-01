@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录成功页面</title>
     <link rel="stylesheet" href="../static/css/index.css">
+    <script>
+        // Function to check if the page is loaded from the back button
+        function checkIfReloadedFromBackButton() {
+            // Use the Performance API to detect navigation type
+            if (performance.navigation.type === 2) {
+                // If it's a back/forward navigation, reload the page
+                window.location.reload();
+            }
+        }
+
+        // Run the function on page load
+        window.onload = checkIfReloadedFromBackButton;
+    </script>
 </head>
 <body>
     <div class="background-image bg1"></div>
