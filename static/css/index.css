@@ -245,6 +245,7 @@ body {
     max-width: 500px; /* 设置最大宽度 */
     border-radius: 10px; /* 圆角 */
     text-align: center;
+    word-wrap: break-word; /* Ensure text wraps within the modal */
 }
 
 
