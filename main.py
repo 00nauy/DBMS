@@ -611,15 +611,28 @@ def search_ad():
         author = request.args.get('author', '')
         category = request.args.get('class', '')
 
-        # 检查是否有输入搜索条件
-        if book_name or author or category or book_id:
+        if book_id:
             db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
             cursor = db.cursor()
             sql_query = """
                         SELECT * FROM books 
-                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s AND book_id = %s
+                        WHERE book_id = %s
                         """
-            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%', book_id)
+            values = (book_id,)
+            cursor.execute(sql_query, values)
+            result = cursor.fetchall()
+            db.close()
+            return render_template('search_ad.html', result=result, searched=True)
+
+        # 检查是否有输入搜索条件
+        if book_name or author or category:
+            db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
+            cursor = db.cursor()
+            sql_query = """
+                        SELECT * FROM books 
+                        WHERE book_name LIKE %s AND class LIKE %s AND author LIKE %s
+                        """
+            values = ('%' + book_name + '%', '%' + category + '%', '%' + author + '%')
             cursor.execute(sql_query, values)
             result = cursor.fetchall()
             db.close()

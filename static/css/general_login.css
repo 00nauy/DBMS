@@ -35,21 +35,3 @@
     left: 45%;
     transform: translate(-50%, -50%);
 }
-
-/* 提交按钮 */
-#submit-button {
-    background: linear-gradient(45deg, #1A292F, #1A292F); /* 渐变背景色 */
-    border: none; /* 移除默认边框 */
-    color: #F5F5DC; /* 字体颜色为白色 */
-    padding: 10px 20px; /* 内边距 */
-    border-radius: 5px; /* 圆角边框 */
-    font-weight: bold; /* 加粗字体 */
-    cursor: pointer; /* 鼠标悬停时显示指针 */
-    transition: all 0.3s ease; /* 平滑过渡效果 */
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2); /* 轻微的阴影 */
-}
-
-#submit-button:hover {
-    background: linear-gradient(45deg, #34515E, #34515E); /* 鼠标悬停时的背景色变化 */
-    box-shadow: 0 0 10px rgba(0,0,0,0.3); /* 鼠标悬停时增加阴影 */
-}

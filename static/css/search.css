@@ -34,6 +34,7 @@ body {
     z-index: 2;
     font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
     animation: flow 3s infinite alternate;
+    margin-top: 50px;
     margin-bottom: 20px;
 }
 
