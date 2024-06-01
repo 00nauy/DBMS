@@ -296,7 +296,11 @@ def reserve():
         hour2 = request.form.get('hour2')
         minute2 = request.form.get('minute2')
 
-        today = datetime.datetime.today().date()
+        re_time = datetime.datetime.combine(datetime.datetime.now().date(), datetime.time(22, 0))
+        if datetime.datetime.now() < re_time:
+            today = datetime.datetime.now().date()
+        else:
+            today = datetime.date.today() + datetime.timedelta(days=1)
         start_time = datetime.datetime.combine(today, datetime.time(int(hour), int(minute)))
         end_time = datetime.datetime.combine(today, datetime.time(int(hour2), int(minute2)))
         # if(start_time < datetime.datetime.now()):
@@ -352,8 +356,8 @@ def reserve2():
         id = request.args.get('seat_id') 
         db = pymysql.connect(host="mysql.sqlpub.com",port=3306,user="nauy01", password="OuarXBbiUOBxLRe1", database= 'library_system25')
         cursor = db.cursor()
-        sql_query = "SELECT * FROM seats WHERE place_id = %s AND DATE(start_time) = %s"
-        values = (id, datetime.date.today())
+        sql_query = "SELECT * FROM seats WHERE place_id = %s"
+        values = (id,)
         cursor.execute(sql_query, values)  
         result = cursor.fetchall()
         db.commit() 
