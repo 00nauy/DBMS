@@ -184,7 +184,7 @@ body {
 
 .logout-container {
     position: absolute;
-    top: 60px;
+    top: 120px;
     right: 60px;
     display: flex;
     flex-direction: column;
@@ -194,9 +194,10 @@ body {
 
 .button.small-button {
     width: 100px;
-    height: 80px;
+    height: 50px;
+    border-radius: 25px;
     font-size: 18px;
-    line-height: 80px;
+    line-height: 50px;
 }
 
 .pagination {
@@ -288,28 +289,25 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    padding-top: 40px;
     z-index: 2;
-    margin-top: 80px;
 }
 
 .button {
-    width: 150px;
-    height: 150px;
-    border: none;
-    color: white;
+    width: 200px;
+    height: 80px;
+    margin: 20px 0;
     text-align: center;
-    text-decoration: none;
     font-size: 20px;
-    line-height: 150px;
-    border-radius: 50%;
+    line-height: 80px;
+    border-radius: 40px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
     position: relative;
     animation: float 6s infinite ease-in-out;
     overflow: hidden;
-    font-family: 'Pacifico', cursive;
 }
 
 .button:before {
@@ -346,36 +344,48 @@ body {
 }
 
 .button:nth-child(1) {
-    background-color: rgba(32, 146, 190, 0.7);
+    left: 40px;
+    color: #F5F5DC;
+    background-color: #063C46;
     animation-delay: 0s;
 }
 
 .button:nth-child(2) {
-    background-color: rgba(243, 84, 208, 0.705);
+    left: 15px;
+    color: #F5F5DC;
+    background-color: #063C46;
     animation-delay: 0.8s;
 }
 
 .button:nth-child(3) {
-    background-color: rgba(7, 73, 85, 0.7);
+    color: #F5F5DC;
+    background-color: #063C46;
     animation-delay: 1.6s;
 }
 
 .button:nth-child(4) {
-    background-color: rgba(214, 93, 93, 0.7);
+    left: -5px;
+    color: #F5F5DC;
+    background-color: #063C46;
     animation-delay: 2.4s;
 }
 
 .button:nth-child(5) {
-    background-color: rgba(204, 28, 28, 0.7);
+    color: #F5F5DC;
+    background-color: #063C46;
     animation-delay: 3.2s;
 }
 
-.button.small-button:nth-child(1) {
-    background-color: rgba(245, 12, 12, 0.7);
+.button.small-button:nth-child(6) {
+    left: 15px;
+    color: #F5F5DC;
+    background-color: rgba(157, 22, 22, 0.7);
 }
 
-.button.small-button:nth-child(2) {
-    background-color: rgba(3, 3, 3, 0.7);
+.button.small-button:nth-child(7) {
+    left: 40px;
+    color: #F5F5DC;
+    background-color: rgba(3, 3, 3, 0.186);
 }
 
 @keyframes pop {
