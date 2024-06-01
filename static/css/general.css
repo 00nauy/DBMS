@@ -22,7 +22,7 @@
     padding: 30px 30px;
     text-decoration: none;
     font-size: 20px;
-    color: #F5F5DC;
+    color: rgb(245, 245, 220);
     display: block;
     transition: border 0.4s ease; /* 平滑地应用边框变化 */
     border-left: 6px solid transparent; /* 初始透明边框 */
