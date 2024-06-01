@@ -1,38 +1,28 @@
 import requests
-from bs4 import BeautifulSoup
+import json
 
 def get_book_data_from_douban(query, max_results=10):
-    url = "https://search.douban.com/book/subject_search"
-    params = {
-        'search_text': query,
-        'cat': '1001'
-    }
+    url = "https://api.douban.com/v2/book/search"
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+    }
+    params = {
+        'q': query,
+        'count': max_results,
+        'apikey': '0ac44ae016490db2204ce0a042db2916'
     }
     try:
-        response = requests.get(url, params=params, headers=headers)
+        response = requests.get(url, headers=headers, params=params, proxies={'http': None, 'https': None})
         response.raise_for_status()  # 检查请求是否成功
-        soup = BeautifulSoup(response.text, 'html.parser')
-        books = soup.find_all('div', class_='item-root', limit=max_results)
+        books = response.json().get('books', [])
         book_data = []
         for book in books:
-            title_tag = book.find('a', class_='title-text')
-            title = title_tag.text.strip() if title_tag else 'N/A'
-            
-            pub_info_tag = book.find('div', class_='meta abstract')
-            pub_info = pub_info_tag.text.strip() if pub_info_tag else 'N/A'
-            pub_info_parts = pub_info.split('/')
-            author = pub_info_parts[0].strip() if len(pub_info_parts) > 0 else 'N/A'
-            publisher = pub_info_parts[-2].strip() if len(pub_info_parts) > 1 else 'N/A'
-            published_date = pub_info_parts[-1].strip() if len(pub_info_parts) > 2 else 'N/A'
-            
             book_info = {
-                'title': title,
-                'category': 'N/A',  # 豆瓣搜索结果页面不直接提供类别信息
-                'author': author,
-                'publisher': publisher,
-                'published_date': published_date
+                'title': book.get('title', 'N/A'),
+                'category': ', '.join(tag['name'] for tag in book.get('tags', [])) if 'tags' in book else 'N/A',
+                'author': ', '.join(book.get('author', [])) if 'author' in book else 'N/A',
+                'publisher': book.get('publisher', 'N/A'),
+                'published_date': book.get('pubdate', 'N/A')
             }
             book_data.append(book_info)
         return book_data
@@ -40,8 +30,16 @@ def get_book_data_from_douban(query, max_results=10):
         print(f"Request failed: {e}")
     return []
 
-query = "计算机科学"
-book_data = get_book_data_from_douban(query, max_results=20)
-for book in book_data:
-    print(book)
+def save_to_json(book_data, filename='book_data.json'):
+    with open(filename, 'w', encoding='utf-8') as file:
+        json.dump(book_data, file, ensure_ascii=False, indent=4)
 
+
+
+query = "计算机科学"
+max_results = 100
+book_data = get_book_data_from_douban(query, max_results)
+for i in range(0, len(book_data), 5):
+    print(" | ".join(f"{book['title']}" for book in book_data[i:i+5]))
+
+save_to_json(book_data)

@@ -5,89 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>个人信息页面</title>  
     <link rel="stylesheet" href="../static/css/personal_info.css">
+    <link rel="stylesheet" href="../static/css/general.css">
 </head>  
 <body>  
 
 <div class="background-image"></div>
 
 <div class="overlay"></div>
-  
-<div class="header">
+
+<!-- <div class="header">
     <h1>Library Management System</h1>
+</div> -->
+
+<!-- <a href="/index" class="return-button">
+    <img src="../static/images/homepage_icon.jpg" alt="返回主页">
+</a> -->
+
+<div class="sidebar">
+    <img src="../static/images/LOGO.png" alt="LOGO" class="logo">
+    <a href="/index">主页</a>
+    <a href="/personal_info">查询个人信息</a>
+    <a href="/borrow_info">查询借阅信息</a>
+    <a href="/search">借书</a>
+    <a href="/reserve">预约座位</a>
+    <a href="/reserve_info">查询预约信息</a>
 </div>
 
-<a href="/index" class="return-button">
-    <img src="../static/images/homepage_icon.jpg" alt="返回主页">
-</a>
 
+<div class="body-content">
+    <div class="user-info">  
+        <h2>个人信息</h2>
+        <div>  
+            <label>用户号:</label>  
+            <span id="user-id">{{userid}}</span>  
+        </div>  
+        <div>  
+            <label>用户名:</label>  
+            <span id="username">{{username}}</span>  
+        </div>  
+        <div>  
+            <label>借阅点数:</label>  
+            <span id="credit-score">{{usercredit}}</span>  
+        </div>  
+        <div>  
+            <label>预约点数:</label>  
+            <span id="credit2-score">{{usercredit2}}</span>  
+        </div>  
+    </div>  
+</div>
 
-  
-<div class="user-info">  
-    <h2>个人信息</h2>
-    <div>  
-        <label>用户号:</label>  
-        <span id="user-id">{{userid}}</span>  
-    </div>  
-    <div>  
-        <label>用户名:</label>  
-        <span id="username">{{username}}</span>  
-    </div>  
-    <div>  
-        <label>借阅点数:</label>  
-        <span id="credit-score">{{usercredit}}</span>  
-    </div>  
-    <div>  
-        <label>预约点数:</label>  
-        <span id="credit2-score">{{usercredit2}}</span>  
-    </div>  
-</div>  
-  
-  
 </body>  
-<<<<<<< HEAD
 </html>
-=======
-</html>
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>借阅信息页面</title>
-    <link rel="stylesheet" href="../static/css/personal_info.css">
-</head>
-<body>
-
-<div class="background-image"></div>
-
-<div class="overlay"></div>
-
-<div class="header">
-    <h1>图书馆管理系统</h1>
-</div>
-
-<a href="/index" class="return-button">
-    <img src="../static/images/homepage_icon.jpg" alt="返回主页">
-</a>
-
-<div class="user-info">
-    <h2>我的借阅</h2>
-    <div>
-        <label>借阅记录1:</label>
-        <span id="info">{{info1}}</span>
-    </div>
-    <div>
-        <label>借阅记录2:</label>
-        <span id="info">{{info2}}</span>
-    </div>
-    <div>
-        <label>借阅记录3:</label>
-        <span id="info">{{info3}}</span>
-    </div>
-</div>
-
-</body>
-</html> -->
->>>>>>> wzr
