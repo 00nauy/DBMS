@@ -41,6 +41,7 @@ body {
 
 .form-container input[type="text"],
 .form-container input[type="date"] {
+    background-color: #F5F5DC;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
