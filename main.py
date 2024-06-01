@@ -766,6 +766,7 @@ def seatsign():
         user_id = request.form['id']  
         if not user_id.isdigit(): 
             return '请输入一个整数！'
+            return jsonify({'message': '请输入一个整数！'}), 400
         #在座位信息表中根据用户号查询预约记录
         db = pymysql.connect(host="mysql.sqlpub.com",port=3306,user="nauy01", password="OuarXBbiUOBxLRe1", database= 'library_system25')
         cursor = db.cursor()
@@ -775,6 +776,7 @@ def seatsign():
         result = cursor.fetchall()
         if len(result) == 0:
             return '无预约记录！'
+            return jsonify({'message': '无预约记录！'}), 404
         db.commit()
         db.close()
         return render_template('sign2.html',result = result) 
@@ -797,10 +799,12 @@ def seatsign2():
     result = cursor.fetchone()
     if result[5] == 1:
         db.close()
+        return jsonify({'message': '已经签过到了！'})
         return '已经签过到了！'
     #如果此时时间比开始时间提前十分钟以上，则无法签到
     if result[3] - datetime.datetime.now() > datetime.timedelta(minutes=10):
         db.close()
+        return jsonify({'message': '在开始时间前十分钟方可签到！'})
         return '在开始时间前十分钟方可签到！'
 
     #更新座位信息表，将签到信息进行设置
@@ -809,6 +813,7 @@ def seatsign2():
     cursor.execute(sql_query1, values1) 
     db.commit()
     db.close()
+    return jsonify({'message': '已签到！'})
     return '已签到！'
 
 
