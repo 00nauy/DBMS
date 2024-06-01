@@ -206,10 +206,10 @@ def borrow2():
         result = cursor.fetchone()
         if result is None:
             db.close()
-            return '此书籍已经被下架！'
+            return jsonify({'error': '此书籍已经被下架！'})
         if result[7] == 1:
             db.close()
-            return '此书籍已经被借阅！'
+            return jsonify({'error': '此书籍已经被借阅！'})
 
         #修改书籍信息表，设置为已经被借
         sql_query1 = "UPDATE books SET borrowed = 1 WHERE book_id = %s"
@@ -230,7 +230,7 @@ def borrow2():
         db.close()
 
         #返回借阅成功页面
-        return '借阅成功！天数为{}天。'.format(numdays)
+        return jsonify({'success': '借阅成功！天数为{}天。'.format(numdays)})
     else:
         #此处先进行检查，可能会出现“借阅”按钮亮起，但书已经被借走或下架的情况，需要排除之。
         book_id = request.args.get('book_id')
@@ -243,12 +243,12 @@ def borrow2():
         db.commit()
         db.close()
         if result is None:
-            return '此书籍已经被下架！'
+           return jsonify({'error': '此书籍已经被下架！'})
         if result[7] == 1:
-            return '此书籍已经被借阅！'
+            return jsonify({'error': '此书籍已经被借阅！'})
         #此处检查借阅点数是否不足100，若不足100则无法借书
         if current_user.credit < 100:
-            return '借阅点数不足！'
+            return jsonify({'error': '借阅点数不足！'})
         #进入借书页2
         return render_template('borrow2.html', bookid = book_id)
 
