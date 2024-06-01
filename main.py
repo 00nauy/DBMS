@@ -508,14 +508,29 @@ def adregist():
 
 #管理员主页，当管理员登录成功后，进入主页
 #对应模板文件为'index_ad.html'
-@app.route('/adindex', methods=['GET', 'POST'])
+@app.route('/adindex', defaults={'page': 1})
+@app.route('/adindex/<int:page>', methods=['GET', 'POST'])
 @login_required
-def adindex():
-    #若当前用户不是管理员，则禁止访问
+def adindex(page):
     if not isinstance(current_user, Manager): 
         abort(403)
     if request.method == "GET":
-        return render_template('index_ad.html', username = current_user.name)
+        # 连接数据库
+        db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
+        cursor = db.cursor()
+
+        # 每页显示6条公告
+        items_per_page = 6
+        offset = (page - 1) * items_per_page
+        cursor.execute("SELECT title, content, pubtime FROM announcements ORDER BY pubtime DESC LIMIT %s OFFSET %s", (items_per_page, offset))  # 查询当前页的公告
+        announcements = cursor.fetchall()
+        cursor.execute("SELECT COUNT(*) FROM announcements")    # 查询总公告数
+        total_count = cursor.fetchone()[0]
+        total_pages = (total_count + items_per_page - 1) // items_per_page  # 计算总页数
+        db.close()
+
+        return render_template( 'index_ad.html', 
+                                username=current_user.name, announcements=announcements, total_pages=total_pages, current_page=page)
 
 
 #上架书籍页，当管理员在主页按下“上架书籍”按钮时，进入此页面，管理员在这个页面填写要上架的书籍信息。

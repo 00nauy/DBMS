@@ -31,10 +31,10 @@
             <input type="text" name="class" placeholder="搜索关键词">
             <input type="submit" value="Search">
         </form>
-        <div class="book-info"> 
+        <div class="book-info">
             {% if searched %}
             {% if result %}
-                <ul id="book-list">  
+                <ul id="book-list">
                     {% for item in result %}
                         <li>
                             书号：{{ item[0] }} 书名：{{ item[1] }} 类别：{{ item[2] }} 作者：{{ item[3] }} 出版社：{{ item[4] }} 出版时间：{{ item[5] }} 入库时间：{{ item[6] }}
