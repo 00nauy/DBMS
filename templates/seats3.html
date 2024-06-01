@@ -25,7 +25,7 @@
         <a href="/reserve_info"><i class="fas fa-info-circle"></i> 查询预约信息</a>
     </div>
 
-    <div class="body-content"></div>
+    <div class="body-content">
     <div class="content-wrapper">
         <div class="reservation-container">
             <h1>座位预约</h1>  
@@ -50,32 +50,32 @@
                 <input type="submit" value="查找">
             </form>
         </div>
-
+        
         <div class="seats-container">
             <h2>可预约座位</h2>
             <ul id="available-seat-list">  
                 {% for seat in seats.available %}
-                    <li class="seat-item">座位号：{{ seat }}
-                        <form action="/reserve2" method="get" class="seat-action-form">  
-                            <input type="hidden" name="seat_id" value="{{ seat }}">  
-                            <button type="submit" class="button">查看预约情况</button>  
-                        </form>
-                        <form action="/reserve3" method="get" class="reserve-form seat-action-form">  
-                            <input type="hidden" name="seat_id" value="{{ seat }}">
-                            <input type="hidden" name="t" value="{{ t }}">
-                            <input type="hidden" name="t11" value="{{ t11 }}">  
-                            <input type="hidden" name="t12" value="{{ t12 }}"> 
-                            <input type="hidden" name="t21" value="{{ t21 }}"> 
-                            <input type="hidden" name="t22" value="{{ t22 }}"> 
-                            <button type="submit" class="button">预约</button>  
+                <li class="seat-item">座位号：{{ seat }}
+                    <form action="/reserve2" method="get" class="seat-action-form">  
+                        <input type="hidden" name="seat_id" value="{{ seat }}">  
+                        <button type="submit" class="button">查看预约情况</button>  
+                    </form>
+                    <form action="/reserve3" method="get" class="reserve-form seat-action-form">  
+                        <input type="hidden" name="seat_id" value="{{ seat }}">
+                        <input type="hidden" name="t" value="{{ t }}">
+                        <input type="hidden" name="t11" value="{{ t11 }}">  
+                        <input type="hidden" name="t12" value="{{ t12 }}"> 
+                        <input type="hidden" name="t21" value="{{ t21 }}"> 
+                        <input type="hidden" name="t22" value="{{ t22 }}"> 
+                        <button type="submit" class="button">预约</button>  
                         </form>
                     </li>
-                {% endfor %}
-            </ul>  
-
-            <h2>冲突座位</h2>
-            <ul id="conflicting-seat-list">  
-                {% for seat in seats.conflicting %}
+                    {% endfor %}
+                </ul>  
+                
+                <h2>冲突座位</h2>
+                <ul id="conflicting-seat-list">  
+                    {% for seat in seats.conflicting %}
                     <li class="seat-item">座位号：{{ seat }}
                         <form action="/reserve2" method="get" class="seat-action-form">  
                             <input type="hidden" name="seat_id" value="{{ seat }}">  

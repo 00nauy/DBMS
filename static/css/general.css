@@ -1,12 +1,12 @@
 .body-content {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    box-sizing: border-box; /* 确保padding包含在宽度计算内 */
-    width: calc(100% - 300px); /* 减去左边的300px */
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: calc(100% - 300px);
     padding-left: 300px;
-    height: 1000px; /* 样例高度 */
+    height: 1000px;
 }
 
 
