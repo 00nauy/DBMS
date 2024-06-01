@@ -817,8 +817,8 @@ def announcement():
         if not title or not content:
             flash('标题和内容都不能为空！')
             return render_template('announcement.html')
-        # 获取当前时间
-        current_date = datetime.date.today()
+        # 获取当前时间（精确到秒）
+        current_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         # 更新数据库
         db = pymysql.connect(host=host, port=port, user=user, password=password, database=database)
         cursor = db.cursor()
