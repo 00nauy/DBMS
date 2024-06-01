@@ -662,17 +662,19 @@ def delbook2():
     result = cursor.fetchone()
     if result is None:
         db.close()
-        return '此书籍已经被下架！'
+        # return '此书籍已经被下架！'
+        return jsonify({'error': '此书籍已经被下架！'})
     if result[7] == 1:
         db.close()
-        return '此书籍已经被借阅！'
+        # return '此书籍已经被借阅！'
+        return jsonify({'error': '此书籍已经被借阅！'})
 
     #更新书籍信息表，删除一条记录
     sql_query2 = "DELETE FROM books WHERE book_id = %s"
     cursor.execute(sql_query2, values) 
     db.commit()
     db.close()
-    return '下架成功！'
+    return jsonify({'success': '下架成功！'})
 
 
 #还书页面，当管理员在主页按下“还书”按钮时，跳转到此页面，管理员需要在此页面输入书号，若存在对应记录，则跳转到还书页面2。
