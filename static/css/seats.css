@@ -38,6 +38,7 @@ body {
 }
 
 .reservation-container select {
+    background-color: #F5F5DC;
     margin-bottom: 20px;
     padding: 5px;
     font-size: 16px;
@@ -46,13 +47,12 @@ body {
 }
 
 .reservation-container input[type="submit"] {
-    border: none;
     outline: none;
-    color: #fff;
-    background: #03a9f4;
+    color: #F5F5DC;
+    background: #1A292F;
     padding: 10px 20px;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 100px;
     font-size: 14px;
     transition: all 0.3s ease;
@@ -60,6 +60,7 @@ body {
 }
 
 .reservation-container input[type="submit"]:hover {
+    background: #34515E;
     transform: translateY(-5px);
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
 }

@@ -28,12 +28,8 @@
         <div class="form-container">
             <h2>发布公告</h2>
             <form action="/announcement" method="post">
-                <label for="title">标题:</label>  
-                <input type="text" id="title" name="title" required><br><br>  
-
-                <label for="content">内容:</label>  
-                <textarea id="content" name="content" required></textarea><br><br>  
-
+                <input type="text" id="title" name="title" placeholder="输入标题" required>
+                <textarea id="content" name="content" placeholder="输入公告内容" required></textarea>
                 <input type="submit" value="提交">
             </form>
         </div>
