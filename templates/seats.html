@@ -26,34 +26,34 @@
     </div>
 
     <div class="body-content">
-    <div class="reservation-container">
-        <h1>座位预约</h1>
-        <form id="timeForm" action="/reserve" method="post">
-            <p>请选择开始时间：</p>
-            <label for="hour">时:</label>
-            <select id="hour" name="hour" required></select>
-            
-            <label for="minute">分:</label>
-            <select id="minute" name="minute" required></select>
+        <div class="reservation-container">
+            <h1>座位预约</h1>
+            <form id="timeForm" action="/reserve" method="post">
+                <p>请选择开始时间：</p>
+                <label for="hour">时:</label>
+                <select id="hour" name="hour" required></select>
+                
+                <label for="minute">分:</label>
+                <select id="minute" name="minute" required></select>
 
-            <p>请选择结束时间：</p>
-            <label for="hour2">时:</label>
-            <select id="hour2" name="hour2" required></select>
-            
-            <label for="minute2">分:</label>
-            <select id="minute2" name="minute2" required></select>
+                <p>请选择结束时间：</p>
+                <label for="hour2">时:</label>
+                <select id="hour2" name="hour2" required></select>
+                
+                <label for="minute2">分:</label>
+                <select id="minute2" name="minute2" required></select>
 
-            <input type="submit" value="查找">
-        </form>
-    </div>
-
-
-    <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p id="errorMessage"></p>
+                <input type="submit" value="查找">
+            </form>
         </div>
-    </div>
+
+
+        <div id="errorModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p id="errorMessage"></p>
+            </div>
+        </div>
     </div>
 
 
