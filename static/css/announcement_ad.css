@@ -42,11 +42,12 @@ body {
 
 .form-container input[type="text"],
 .form-container textarea {
+    background-color: #F5F5DC;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
-    width: 100%;
+    width: 100% - 20px;
 }
 
 .form-container textarea {
@@ -58,14 +59,14 @@ body {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #1A292F;
+    color: #F5F5DC;
     font-size: 16px;
     cursor: pointer;
 }
 
 .form-container input[type="submit"]:hover {
-    background-color: #45a049;
+    background-color: #34515E;
 }
 
 .announcement-container {
@@ -126,14 +127,14 @@ body {
     padding: 5px 10px;
     border-radius: 5px;
     border: none;
-    background-color: #f44336;
-    color: white;
+    background-color: #1A292F;
+    color: #F5F5DC;
     font-size: 12px;
     cursor: pointer;
 }
 
 .delete-button:hover {
-    background-color: #d32f2f;
+    background-color: #9d1616;
 }
 
 @keyframes flow {
