@@ -26,7 +26,10 @@
     </div>
     
     <div class="body-content">
-        <div class="reservation-container">  
+        <div class="reservation-container">
+            {% if res_len == 0 %}
+            <h2>今日无已预约时间段</h2>
+            {% else %}
             <h2>今日已预约时间段</h2>
             <ul id="available-seat-list">
                 {% for item in result %}
@@ -36,6 +39,7 @@
                 </li>
                 {% endfor %}
             </ul>
+            {% endif %}
         </div>
 </body>  
 </html>
