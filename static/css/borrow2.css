@@ -46,6 +46,7 @@ body {
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
+    background-color: #F5F5DC;
 }
 
 /* .form-container input[type="submit"] {
