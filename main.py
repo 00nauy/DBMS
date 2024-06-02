@@ -473,10 +473,12 @@ def seatend():
     result = cursor.fetchone()
     if result is None:
         db.close()
+        return jsonify({'message': '预约已经结束了，无需再结束！'}), 400
         return '预约已经结束了，无需再结束！'
 
     #判断预约是否处于可结束时间段
     if (result[5] == 0) and (result[3] - datetime.datetime.now() < datetime.timedelta(minutes=10)):
+        return jsonify({'message': '不处于可提前结束时间段！'}), 400
         return '不处于可提前结束时间段！'
 
     #修改用户信息表，增加100预约点数
@@ -490,6 +492,7 @@ def seatend():
     cursor.execute(sql_query, values)
     db.commit() 
     db.close()
+    return jsonify({'message': '成功结束预约！'}), 200
     return "成功结束预约！"
 
 
