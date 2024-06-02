@@ -53,7 +53,7 @@
         
         <div class="seats-container">
             <h2>可预约座位</h2>
-            <ul id="available-seat-list">  
+            <ul id="available-seat-list">
                 {% for seat in seats.available %}
                 <li class="seat-item">座位号：{{ seat }}
                     <form action="/reserve2" method="get" class="seat-action-form">  
