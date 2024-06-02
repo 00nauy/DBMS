@@ -389,8 +389,8 @@ def reserve3():
         #可能存在座位已经被预约的情况，需要排除之
         db = pymysql.connect(host="mysql.sqlpub.com",port=3306,user="nauy01", password="OuarXBbiUOBxLRe1", database= 'library_system25')
         cursor = db.cursor()
-        sql_query = "SELECT * FROM seats WHERE place_id = %s AND DATE(start_time) = %s"
-        values = (id, datetime.date.today())
+        sql_query = "SELECT * FROM seats WHERE place_id = %s"
+        values = (id,)
         cursor.execute(sql_query, values)
         result = cursor.fetchall()
         for res in result:
