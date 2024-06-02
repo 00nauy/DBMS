@@ -362,9 +362,7 @@ def reserve2():
         result = cursor.fetchall()
         db.commit() 
         db.close()
-        if len(result) == 0:
-            return '今日无预约记录！'
-        return render_template('seats2.html',result=result)
+        return render_template('seats2.html',result=result, res_len=len(result))
 
 
 #预约座位页3，当用户在预约座位页1按下”预约“按钮时，将进行相应操作并返回结果。
