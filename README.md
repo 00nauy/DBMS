@@ -13,6 +13,7 @@
 - **座位预约**：提供完善的座位预约系统。
 
 ## 安装与使用
+我们开发采用了python3.8版本，其他python版本目前没有测试，使用的操作系统为Windows。
 
 要设置芥子须弥图书馆管理系统，请按照以下步骤操作：
 
@@ -41,6 +42,7 @@ The Mustard Seed Library Management System is a comprehensive library management
 - **Seat Reservation**: Provide a complete seat reservation system.
 
 ## Installation and Usage
+We used Python 3.8 for development. Other Python versions have not been tested. The operating system used is Windows.
 
 To set up the Mustard Seed Library Management System, follow these steps:
 
