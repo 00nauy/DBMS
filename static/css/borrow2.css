@@ -48,7 +48,7 @@ body {
     font-size: 16px;
 }
 
-.form-container input[type="submit"] {
+/* .form-container input[type="submit"] {
     padding: 10px;
     border-radius: 5px;
     border: none;
@@ -60,6 +60,21 @@ body {
 
 .form-container input[type="submit"]:hover {
     background-color: #45a049;
+} */
+
+
+.form-container input[type="submit"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #1A292F;
+    color: #F5F5DC;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #34515E;
 }
 
 @keyframes flow {
