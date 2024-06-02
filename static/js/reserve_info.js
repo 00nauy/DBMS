@@ -1,4 +1,3 @@
-// reserve_info.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('resultModal');

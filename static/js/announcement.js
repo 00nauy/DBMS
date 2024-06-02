@@ -1,11 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // 获取弹出窗口
     var modal = document.getElementById("announcementModal");
 
-    // 获取 <span> 元素，设置关闭按钮
     var span = document.getElementById("announcementClose");
 
-    // 当用户点击 <span> (x)，关闭弹出窗口
     span.onclick = function() {
         modal.style.display = "none";
     }

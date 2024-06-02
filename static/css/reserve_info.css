@@ -79,7 +79,7 @@ body {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-5px); /* 在动画的中间位置向上移动5像素 */
+        transform: translateY(-5px); 
     }
     100% {
         transform: translateY(0);
@@ -130,23 +130,23 @@ body {
 
 .button {
     padding: 10px 20px;
-    background-color: #1A292F; /* 绿色底色 */
+    background-color: #1A292F; 
     color: #F5F5DC;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; /* 动画效果 */
+    transition: background-color 0.3s, transform 0.3s; 
     display: inline-block;
     text-decoration: none;
 }
 
 .button:hover {
-    background-color: #34515E; /* 悬停时变深 */
-    transform: scale(1.05); /* 悬停时放大 */
+    background-color: #34515E; 
+    transform: scale(1.05); 
 }
 
 .button:disabled {
-    background-color: #ccc; /* 禁用状态的颜色 */
+    background-color: #ccc; 
     cursor: not-allowed;
 }
 

@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showResultModal(message) {
         const resultMessage = document.getElementById('resultMessage');
-        resultMessage.innerHTML = message; // Use innerHTML to handle HTML content
+        resultMessage.innerHTML = message; 
         modal.style.display = 'block';
     }
 

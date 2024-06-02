@@ -1,4 +1,3 @@
-// announcement.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('errorModal');
@@ -7,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showErrorModal(message) {
         const errorMessage = document.getElementById('errorMessage');
-        errorMessage.innerHTML = message; // Use innerHTML to handle HTML content
+        errorMessage.innerHTML = message; 
         modal.style.display = 'block';
     }
 
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.style.display = 'none';
         };
 
-        // Clear previous content
+       
         errorMessage.innerHTML = message;
         errorMessage.appendChild(confirmButton);
         errorMessage.appendChild(cancelButton);

@@ -1,5 +1,3 @@
-// add_book.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('successModal');
     const modalContent = document.querySelector('.modal-content');
@@ -7,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showSuccessModal(message) {
         const successMessage = document.getElementById('successMessage');
-        successMessage.innerHTML = message; // Use innerHTML to handle HTML content
+        successMessage.innerHTML = message; 
         modal.style.display = 'block';
     }
 

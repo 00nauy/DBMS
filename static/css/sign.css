@@ -24,6 +24,8 @@ body {
     font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
     animation: flow 3s infinite alternate;
     margin-bottom: 20px;
+    max-height: 600px;
+    overflow: auto;
 }
 
 .form-container h2 {
@@ -119,7 +121,7 @@ ul#book-list {
 }
 
 ul#book-list li {
-    background: rgba(255, 255, 255, 0.9);
+    background: #F5F5DC;
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 10px;
@@ -131,14 +133,14 @@ ul#book-list li {
 
 ul#book-list li .button {
     padding: 10px 20px;
-    background: #4CAF50;
-    color: white;
+    background: #1A292F;
+    color: #F5F5DC;
     border-radius: 5px;
     text-decoration: none;
     transition: background 0.3s;
 }
 
 ul#book-list li .button:hover {
-    background: #45a049;
+    background: #34515E;
 }
 

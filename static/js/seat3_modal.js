@@ -20,6 +20,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Expose showErrorModal function to global scope
     window.showErrorModal = showErrorModal;
 });

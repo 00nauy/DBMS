@@ -2,14 +2,14 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    overflow-x: hidden; /* 允许垂直滚动 */
+    overflow-x: hidden; 
     position: relative;
     background-color: #f0f0f0;
     background-attachment: fixed;
 }
 
 .background-image {
-    position: fixed; /* 背景固定 */
+    position: fixed; 
     top: 0;
     left: 0;
     width: 100%;
@@ -26,7 +26,7 @@ body {
 }
 
 
-/* 左边栏 */
+
 .logo-container {
     position: fixed;
     height: 100vh;
@@ -65,7 +65,7 @@ body {
 }
 
 
-/* 中间公告 */
+
 .welcome-text {
     color: #F5F5DC;
     font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
@@ -77,11 +77,11 @@ body {
     background-color: #1A292F;
     animation: flow 3s infinite alternate;
     display: block; 
-    width: fit-content; /* 使宽度自适应内容 */
-    max-width: 80%; /* 设置最大宽度 */
+    width: fit-content; 
+    max-width: 80%; 
     position: relative;
-    margin-left: auto; /* 居中对齐 */
-    margin-right: auto; /* 居中对齐 */
+    margin-left: auto; 
+    margin-right: auto; 
     top: 150px
 }
 
@@ -93,22 +93,22 @@ body {
     z-index: 2;
     text-align: left;
     width: 80%;
-    max-width: 600px; /* 设置最大宽度 */
-    height: 300px; /* 固定高度 */
-    overflow-y: auto; /* 如果内容超出容器高度，则出现滚动条 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
-    font-family: Arial, sans-serif; /* 统一字体 */
-    margin-left: auto; /* 居中对齐 */
-    margin-right: auto; /* 居中对齐 */
+    max-width: 600px; 
+    height: 300px; 
+    overflow-y: auto; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    font-family: Arial, sans-serif; 
+    margin-left: auto; 
+    margin-right: auto; 
     position: relative;
-    border: 5px solid #1A292F; /* 添加深青色边框 */
+    border: 5px solid #1A292F; 
 }
 
 .announcement-container h2 {
-    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace; /* 使用特殊字体 */
+    font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace; 
     color: #333;
     margin-bottom: 10px;
-    border-bottom: 2px solid #333; /* 在标题下添加一条线 */
+    border-bottom: 2px solid #333; 
     padding-bottom: 10px;
 }
 
@@ -121,9 +121,9 @@ body {
 .announcement-item {
     margin: 10px 0;
     color: #333;
-    white-space: nowrap; /* 防止换行 */
-    overflow: hidden; /* 隐藏超出部分 */
-    text-overflow: ellipsis; /* 使用省略号代替超出部分 */
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
     display: flex;
     align-items: center;
 }
@@ -132,10 +132,10 @@ body {
     color: #000;
     text-decoration: none;
     cursor: pointer;
-    flex: 1; /* 使链接部分占据可用空间 */
-    white-space: nowrap; /* 防止链接部分换行 */
-    overflow: hidden; /* 隐藏超出部分 */
-    text-overflow: ellipsis; /* 使用省略号代替超出部分 */
+    flex: 1; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
 
 .announcement-link:hover {
@@ -144,12 +144,12 @@ body {
 
 .announcement-time {
     color: #666;
-    margin-left: 10px; /* 给日期和链接之间添加一些间距 */
-    white-space: nowrap; /* 防止日期换行 */
+    margin-left: 10px; 
+    white-space: nowrap; 
 }
 
 
-/* 右边栏 */
+
 .bt-container {
     position: fixed;
     height: 100vh;
@@ -217,24 +217,24 @@ body {
 }
 
 .pagination a:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* 悬停时背景颜色变化 */
+    background-color: rgba(0, 0, 0, 0.1); 
 }
 
 .pagination span {
     font-weight: bold;
 }
 
-/* 弹出窗口样式 */
+
 .modal {
-    display: none; /* 隐藏弹出窗口 */
-    position: fixed; /* 固定位置 */
-    z-index: 3; /* 置于顶层 */
+    display: none; 
+    position: fixed; 
+    z-index: 3; 
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* 允许滚动 */
-    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.5); 
 }
 
 .modal-content {
@@ -243,10 +243,10 @@ body {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 500px; /* 设置最大宽度 */
-    border-radius: 10px; /* 圆角 */
+    max-width: 500px; 
+    border-radius: 10px; 
     text-align: center;
-    word-wrap: break-word; /* Ensure text wraps within the modal */
+    word-wrap: break-word; 
 }
 
 
@@ -276,12 +276,12 @@ body {
 }
 
 #confirmLogoff {
-    background-color: #f44336; /* 红色 */
+    background-color: #f44336; 
     color: white;
 }
 
 #cancelLogoff {
-    background-color: #aaa; /* 灰色 */
+    background-color: #aaa; 
     color: white;
 }
 

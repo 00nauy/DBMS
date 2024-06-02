@@ -83,8 +83,8 @@ body {
     z-index: 2;
     font-family: 'Lucida Handwriting', 'Courier New', Courier, monospace;
     /* animation: flow 3s infinite alternate; */
-    overflow-y: auto; /* 允许垂直滚动 */
-    max-height: 50vh; /* 设置最大高度 */
+    overflow-y: auto; 
+    max-height: 50vh; 
 }
 
 .book-info h2 {
@@ -138,7 +138,7 @@ body {
         transform: translateY(0);
     }
     50% {
-        transform: translateY(-5px); /* 在动画的中间位置向上移动5像素 */
+        transform: translateY(-5px); 
     }
     100% {
         transform: translateY(0);

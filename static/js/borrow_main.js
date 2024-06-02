@@ -1,4 +1,3 @@
-// borrow.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const select = document.getElementById('number');

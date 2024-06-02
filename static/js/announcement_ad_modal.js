@@ -1,4 +1,3 @@
-// modal.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('errorModal');
@@ -20,6 +19,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Expose showErrorModal function to global scope
     window.showErrorModal = showErrorModal;
 });

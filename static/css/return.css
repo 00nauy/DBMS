@@ -111,3 +111,27 @@ body {
         transform: translateY(0);
     }
 }
+
+
+.button:hover {
+    background-color: #34515E;
+}
+
+.button {
+    background-color: #1A292F;
+    color: #F5F5DC;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button.disabled {
+    background-color:  #839192;
+    color: #F5F5DC;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed;
+}

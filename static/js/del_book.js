@@ -1,4 +1,3 @@
-// delbook.js
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.del-book-form').forEach(form => {
